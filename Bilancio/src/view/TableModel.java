@@ -38,9 +38,9 @@ public class TableModel extends AbstractTableModel{
 
         //considero l'indice delle colonne da 0 a 2 e da sinistra verso destra
         switch(columnIndex){
-            case 0: voce.getData();
-            case 1: voce.getAmmontare();
-            case 2: voce.getDescrizione();
+            case 0: return voce.getData();
+            case 1: return voce.getAmmontare();
+            case 2: return voce.getDescrizione();
             default: return null;
         }
     }
