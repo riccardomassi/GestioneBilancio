@@ -21,14 +21,19 @@ public class TablePanel extends JPanel {
         add(new JScrollPane(table), BorderLayout.CENTER);
 
     }
-
-    /*
+    
+    /** 
+     * @param listaVoci
+     * 
      * Metodo che mi permette di settare le Voci nel TableModel
      */
     public void setData(List<Voce> listaVoci){
         tableModel.setData(listaVoci);
     }
 
+    /*
+     * Metodo che aggiorna la Tabella coi nuovi dati aggiunti
+     */
     public void aggiorna(){
         tableModel.fireTableDataChanged();
     }

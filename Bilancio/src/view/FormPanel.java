@@ -3,7 +3,9 @@ package view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.*;
 import javax.swing.*;
+import org.jdatepicker.impl.*;
 
 public class FormPanel extends JPanel{
 
@@ -11,7 +13,6 @@ public class FormPanel extends JPanel{
     private JLabel labelAmmontare;
     private JLabel labelDescrizione;
 
-    private JTextField fieldData;
     private JTextField fieldAmmontare;
     private JTextField fieldDescrizione;
 
@@ -19,6 +20,12 @@ public class FormPanel extends JPanel{
     private JButton rimuovi;
 
     private FormListener formListener; 
+
+    private UtilDateModel dateModel;
+    private Properties properties;
+    private JDatePanelImpl datePanel;
+    private JDatePickerImpl datePicker;
+    private DateFormatter dateFormatter;
 
     public FormPanel(){
         /*
@@ -31,7 +38,15 @@ public class FormPanel extends JPanel{
          * Componenti
          */
         labelData = new JLabel("Data:");
-        fieldData = new JTextField(25);
+        //le prossime 8 righe di codice servono per la creazione del calendario
+        dateModel = new UtilDateModel();
+        properties = new Properties();
+        properties.put("text.today","Today");
+        properties.put("text.month","Month");
+        properties.put("text.year","Year");
+        datePanel = new JDatePanelImpl(dateModel, properties);
+        dateFormatter = new DateFormatter();
+        datePicker = new JDatePickerImpl(datePanel, dateFormatter);
         
         labelAmmontare = new JLabel("Ammontare:");
         fieldAmmontare = new JTextField(25);
@@ -41,19 +56,25 @@ public class FormPanel extends JPanel{
 
         aggiungi = new JButton("Aggiungi");
         rimuovi = new JButton("Rimuovi");
-
+        
         /*
-         * Gestione bottoni
+         * Gestione bottone aggiungi:
+         * Viene creata una classe anonima ActionListener che implementa il metodo actionPerformed,
+         * che permette di gestire cosa accade quando viene premuto il bottone
          */
         aggiungi.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                String data = fieldData.getText();
-                String ammontare = fieldAmmontare.getText();
+                String data = datePicker.getJFormattedTextField().getText();
+                int ammontare = Integer.parseInt(fieldAmmontare.getText());
                 String descrizione = fieldDescrizione.getText();
 
                 FormEvent formEvent = new FormEvent(this, data, ammontare, descrizione);
 
+                /*
+                 * Se il formListener é stato settato nel Frame,
+                 * gli passo il formEvent appena creato
+                 */
                 if(formListener != null){
                     formListener.formEventListener(formEvent);
                 }
@@ -80,7 +101,7 @@ public class FormPanel extends JPanel{
         gbc.weighty = 0.0;
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.insets = new Insets(10, 0, 0, 0);
-        add(fieldData, gbc);
+        add(datePicker, gbc);
 
         //gbc etichetta Ammontare
         gbc.gridx = 0;
@@ -138,9 +159,13 @@ public class FormPanel extends JPanel{
 
     }
 
-    //metodo per impostare il FormListener, che viene settato nel Frame
+    
+    /** 
+     * @param formListener
+     * 
+     * Metodo per impostare il FormListener, che verra usato nel Frame
+     */
     public void setFormListener(FormListener formListener){
         this.formListener = formListener;
     }
-    
 }
