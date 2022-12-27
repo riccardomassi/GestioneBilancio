@@ -42,6 +42,10 @@ public class Controller {
         return database.getVoci();
     }
 
+    public String getTotale(){
+        return database.getTotale();
+    }
+
     public void salvaSuFile(File file) throws IOException{
         database.salvaSuFile(file);
     }

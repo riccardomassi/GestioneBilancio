@@ -17,7 +17,6 @@ public class FormPanel extends JPanel{
     private JTextField fieldDescrizione;
 
     private JButton aggiungi;
-    private JButton rimuovi;
 
     private FormListener formListener; 
 
@@ -44,6 +43,7 @@ public class FormPanel extends JPanel{
         properties.put("text.today","Today");
         properties.put("text.month","Month");
         properties.put("text.year","Year");
+        dateModel.setSelected(true); //metodo per settare la data odierna di default
         datePanel = new JDatePanelImpl(dateModel, properties);
         dateFormatter = new DateFormatter();
         datePicker = new JDatePickerImpl(datePanel, dateFormatter);
@@ -55,7 +55,6 @@ public class FormPanel extends JPanel{
         fieldDescrizione = new JTextField(25);
 
         aggiungi = new JButton("Aggiungi");
-        rimuovi = new JButton("Rimuovi");
         
         /*
          * Gestione bottone aggiungi:
@@ -146,17 +145,6 @@ public class FormPanel extends JPanel{
         gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.insets = new Insets(10, 0, 0, 0);
         add(aggiungi, gbc);
-
-        //gbc bottone Rimuovi
-        gbc.gridx = 1;
-        gbc.gridy = 3;
-        gbc.weightx = 0.5;
-        gbc.weighty = 0.5;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.FIRST_LINE_END;
-        gbc.insets = new Insets(10, 0, 0, 0);
-        add(rimuovi, gbc);
-
     }
 
     

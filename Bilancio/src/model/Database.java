@@ -26,7 +26,6 @@ public class Database {
         voci.add(voce);
     }
 
-    
     /** 
      * @return List<Voce>
      * 
@@ -34,6 +33,19 @@ public class Database {
      */
     public List<Voce> getVoci(){
         return voci;
+    }
+
+    /*
+     * Metodo che ritorna la somma totale
+     * delle voci del bilancio
+     */
+    public String getTotale(){
+        int totale = 0;
+        for(int i = 0; i < voci.size(); i++){
+            totale += voci.get(i).getAmmontare();
+        }
+
+        return "Totale: "+totale;
     }
 
     public void salvaSuFile(File file) throws IOException{

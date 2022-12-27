@@ -14,7 +14,9 @@ public class Frame extends JFrame{
     private TablePanel tablePanel;
     private FormPanel formPanel;
     private Controller controller;
-    private JFileChooser fileChooser;
+    private FileChooserBilancio fileChooser;
+
+    private JTextField fieldTotale;
 
     public Frame(){
         /*
@@ -28,7 +30,10 @@ public class Frame extends JFrame{
         formPanel = new FormPanel();
         controller = new Controller();
 
-        fileChooser = new JFileChooser();
+        fieldTotale = new JTextField(25);
+        fieldTotale.setEditable(false);
+
+        fileChooser = new FileChooserBilancio();
         fileChooser.addChoosableFileFilter(new FileFilterBilancio());
         fileChooser.setAcceptAllFileFilterUsed(false);
 
@@ -36,7 +41,7 @@ public class Frame extends JFrame{
         tablePanel.setData(controller.getVoci());
 
         /*
-         * Metodo del FormPanel che permette di di prendere i dati dal FormEvent
+         * Metodo del FormPanel che permette di prendere i dati dal FormEvent
          * e passarli alla Tabella attraverso il Controller
          */
         formPanel.setFormListener(new FormListener() {
@@ -48,13 +53,24 @@ public class Frame extends JFrame{
 
                 controller.addVoce(data, ammontare, descrizione);
                 tablePanel.aggiorna();
+
+                //gestione somma totale del bilancio
+                fieldTotale.setText(controller.getTotale());
             }
         });
 
         /*
+         * Gestione componenti in pannello centrale
+         */
+        JPanel pc = new JPanel();
+        pc.setLayout(new BorderLayout());
+        pc.add(tablePanel, BorderLayout.CENTER);
+        pc.add(fieldTotale, BorderLayout.SOUTH);
+
+        /*
          * Componenti
          */
-        add(tablePanel, BorderLayout.CENTER);
+        add(pc, BorderLayout.CENTER);
         add(formPanel, BorderLayout.LINE_START);
 
         /*
@@ -109,6 +125,9 @@ public class Frame extends JFrame{
                     } catch (IOException e1) {
                         JOptionPane.showMessageDialog(Frame.this, "Impossibile importare i dati da file", "Errore", JOptionPane.ERROR_MESSAGE);
                     }
+
+                    //gestione somma totale del bilancio
+                    fieldTotale.setText(controller.getTotale());
                 }
             }
         });
