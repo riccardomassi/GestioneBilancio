@@ -37,12 +37,14 @@ public class Frame extends JFrame{
         fileChooser.addChoosableFileFilter(new FileFilterBilancio());
         fileChooser.setAcceptAllFileFilterUsed(false);
 
-        //prendo la lista di Voci dal Database e la passo al TablePanel attraverso il Controller
+        /*
+         * prendo la lista di Voci dal Database e la passo al Tabella attraverso il Controller
+         */
         tablePanel.setData(controller.getVoci());
 
         /*
-         * Metodo del FormPanel che permette di prendere i dati dal FormEvent
-         * e passarli alla Tabella attraverso il Controller
+         * Metodo del FormPanel che permette di prendere i dati del FormPanel 
+         * attraverso il FormEvent e passarli al Database attraverso il Controller
          */
         formPanel.setFormListener(new FormListener() {
             @Override
@@ -53,6 +55,23 @@ public class Frame extends JFrame{
 
                 controller.addVoce(data, ammontare, descrizione);
                 tablePanel.aggiorna();
+
+                //gestione somma totale del bilancio
+                fieldTotale.setText(controller.getTotale());
+            }
+        });
+
+        /*
+         * Metodo del TablePanel che permette di prendere la riga
+         * della voce da eliminare, per poi passarla al controller e
+         * eliminare la voce dal Database
+         */
+        tablePanel.setTableListener(new TableListener() {
+            @Override
+            public void tableEventListener(TableEvent te){
+                int rowIndexDelete = te.getRowToDelete();
+
+                controller.delVoce(rowIndexDelete);
 
                 //gestione somma totale del bilancio
                 fieldTotale.setText(controller.getTotale());
@@ -177,5 +196,4 @@ public class Frame extends JFrame{
 
         return barraMenu;
     }
-    
 }

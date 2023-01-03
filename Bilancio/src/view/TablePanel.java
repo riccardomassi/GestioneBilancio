@@ -4,14 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 import model.Voce;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class TablePanel extends JPanel {
     
     private JTable table;
     private TableModel tableModel;
     private JPopupMenu popupMenu;
+    private TableListener tableListener;
     
     public TablePanel(){
 
@@ -26,12 +26,29 @@ public class TablePanel extends JPanel {
         JMenuItem menuItemEliminaVoce = new JMenuItem("Elimina Voce");
         popupMenu.add(menuItemEliminaVoce);
 
+        //Visualizzo il popup menu cliccando col tasto destro
         table.addMouseListener(new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent e){
                 //Button3 = tasto destro mouse
                 if(e.getButton() == MouseEvent.BUTTON3){
                     popupMenu.show(table, e.getX(), e.getY());
+                }
+            }
+        });
+
+        //Cliccando su "Elimina Voce" viene eliminata la voce selezionata
+        menuItemEliminaVoce.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                int rowIndexDelete = table.getSelectedRow();
+                //elimino la riga dalla tabella
+                tableModel.fireTableRowsDeleted(rowIndexDelete, rowIndexDelete);
+
+                TableEvent tableEvent = new TableEvent(this, rowIndexDelete);
+
+                if(tableListener != null){
+                    tableListener.tableEventListener(tableEvent);
                 }
             }
         });
@@ -57,5 +74,9 @@ public class TablePanel extends JPanel {
      */
     public void aggiorna(){
         tableModel.fireTableDataChanged();
+    }
+
+    public void setTableListener(TableListener tableListener){
+        this.tableListener = tableListener;
     }
 }

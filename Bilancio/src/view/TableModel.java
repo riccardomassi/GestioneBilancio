@@ -28,6 +28,8 @@ public class TableModel extends AbstractTableModel{
     /** 
      * @param column
      * @return String
+     * 
+     * metodo per inserire i titoli delle colonne
      */
     @Override
     public String getColumnName(int column){
@@ -52,6 +54,14 @@ public class TableModel extends AbstractTableModel{
        return listaVoci.size();
     }
 
+    /** 
+     * @param int
+     * @return Voce
+     */
+    public int getRowToDelete(java.awt.Point p){
+        int rowIndexDelete = 2;
+        return rowIndexDelete;
+    }
     
     /** 
      * @param rowIndex

@@ -18,12 +18,21 @@ public class Database {
     }
     
     /** 
-     * @param voce
+     * @param Voce
      * 
      * Metodo che aggiunge una Voce al Database
      */
     public void addVoce(Voce voce){
         voci.add(voce);
+    }
+
+    /** 
+     * @param int
+     * 
+     * Metodo che elimina una Voce dal Database
+     */
+    public void delVoce(int rowIndex){
+        voci.remove(rowIndex);
     }
 
     /** 

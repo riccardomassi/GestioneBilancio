@@ -37,7 +37,7 @@ public class FormPanel extends JPanel{
          * Componenti
          */
         labelData = new JLabel("Data:");
-        //le prossime 8 righe di codice servono per la creazione del calendario
+        //le prossime 9 righe di codice servono per la creazione del calendario
         dateModel = new UtilDateModel();
         properties = new Properties();
         properties.put("text.today","Today");
@@ -151,7 +151,7 @@ public class FormPanel extends JPanel{
     /** 
      * @param formListener
      * 
-     * Metodo per impostare il FormListener, che verra usato nel Frame
+     * Metodo per impostare il FormListener
      */
     public void setFormListener(FormListener formListener){
         this.formListener = formListener;

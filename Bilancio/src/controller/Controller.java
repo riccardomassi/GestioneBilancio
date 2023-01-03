@@ -24,14 +24,19 @@ public class Controller {
      * Metodo che aggiunge una Voce al Database
      */
     public void addVoce(String data, int ammontare, String descrizione){
-
         //creazione voce
         Voce voce = new Voce(data, ammontare, descrizione);
-
-        //aggiungiamo la Voce al Database
         database.addVoce(voce);
     }
 
+    /** 
+     * @param int
+     * 
+     * Metodo che elimina una Voce dal Database
+     */
+    public void delVoce(int rowIndex){
+        database.delVoce(rowIndex);
+    }
     
     /** 
      * @return List<Voce>
