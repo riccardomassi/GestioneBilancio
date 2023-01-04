@@ -1,4 +1,4 @@
-package view;
+package view.Form;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,7 +14,6 @@ public class DateFormatter extends AbstractFormatter{
 
     @Override
     public Object stringToValue(String text) throws ParseException {
-        // TODO Auto-generated method stub
         return null;
     }
 

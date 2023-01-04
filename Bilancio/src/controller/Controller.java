@@ -34,8 +34,8 @@ public class Controller {
      * 
      * Metodo che elimina una Voce dal Database
      */
-    public void delVoce(int rowIndex){
-        database.delVoce(rowIndex);
+    public void delVoce(int rowIndexDelete){
+        database.delVoce(rowIndexDelete);
     }
     
     /** 

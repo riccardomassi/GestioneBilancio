@@ -1,4 +1,4 @@
-package view;
+package view.Table;
 
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -52,15 +52,6 @@ public class TableModel extends AbstractTableModel{
     @Override
     public int getRowCount() {
        return listaVoci.size();
-    }
-
-    /** 
-     * @param int
-     * @return Voce
-     */
-    public int getRowToDelete(java.awt.Point p){
-        int rowIndexDelete = 2;
-        return rowIndexDelete;
     }
     
     /** 

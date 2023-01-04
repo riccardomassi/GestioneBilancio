@@ -1,4 +1,4 @@
-package view;
+package view.Form;
 
 import java.util.EventObject;
 
@@ -60,9 +60,9 @@ public class FormEvent extends EventObject{
 
     
     /** 
-     * @param descrzione
+     * @param descrizione
      */
-    public void setDescrzione(String descrzione) {
-        this.descrzione = descrzione;
+    public void setDescrzione(String descrizione) {
+        this.descrzione = descrizione;
     }  
 }

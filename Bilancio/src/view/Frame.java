@@ -3,6 +3,15 @@ package view;
 import javax.swing.*;
 
 import controller.Controller;
+import view.File.FileChooserBilancio;
+import view.File.FileFilterBilancio;
+import view.File.Utils;
+import view.Form.FormEvent;
+import view.Form.FormListener;
+import view.Form.FormPanel;
+import view.Table.TableEvent;
+import view.Table.TableListener;
+import view.Table.TablePanel;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -27,7 +36,7 @@ public class Frame extends JFrame{
         setJMenuBar(creaBarraMenu());
 
         tablePanel = new TablePanel();
-        formPanel = new FormPanel();
+        formPanel = new FormPanel(tablePanel);
         controller = new Controller();
 
         fieldTotale = new JTextField(25);
@@ -43,8 +52,9 @@ public class Frame extends JFrame{
         tablePanel.setData(controller.getVoci());
 
         /*
-         * Metodo del FormPanel che permette di prendere i dati del FormPanel 
-         * attraverso il FormEvent e passarli al Database attraverso il Controller
+         * Metodo del FormPanel che permette di aggiungere i dati del FormPanel 
+         * attraverso il FormEvent al Database attraverso il Controller, 
+         * quando viene premuto il tasto Aggiungi
          */
         formPanel.setFormListener(new FormListener() {
             @Override
@@ -105,8 +115,7 @@ public class Frame extends JFrame{
     /** 
      * @return JMenuBar
      * 
-     * MenuBar che si occupa di gestire i menu:
-     * File e Ricerca
+     * MenuBar che si occupa di gestire il menu File
      */
     private JMenuBar creaBarraMenu(){
         JMenuBar barraMenu = new JMenuBar();
@@ -179,20 +188,8 @@ public class Frame extends JFrame{
                 System.exit(ABORT);
             }
         });
-
-        /*
-         * Menu Ricerca
-         */
-        JMenu menuCerca = new JMenu("Ricerca");
-
-        JMenuItem menuItemCerca = new JMenuItem("Cerca");
-
-        menuCerca.add(menuItemCerca);
-
-       //implementa la pagina di popup per eseguire la ricerca
         
         barraMenu.add(menuFile);
-        barraMenu.add(menuCerca);
 
         return barraMenu;
     }
