@@ -3,9 +3,19 @@ package view.Form;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import javax.swing.*;
 import org.jdatepicker.impl.*;
+
+import model.Voce;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
 
 import view.Table.TablePanel;
 
@@ -26,6 +36,7 @@ public class FormPanel extends JPanel{
 
     private JLabel labelVisualizza;
     private JComboBox boxVisualizza;
+    private JTextField fieldVisualizza;
 
     private JButton aggiungi;
 
@@ -33,9 +44,17 @@ public class FormPanel extends JPanel{
     private JTextField fieldRicerca;
     private JButton ricerca;
 
+    private JLabel labelInizio;
+    private JTextField fieldInizio;
+    private JLabel labelFine;
+    private JTextField fieldFine;
+
+    private JButton visualizza;
+    private JButton indietro;
+
     private FormListener formListener; 
 
-    public FormPanel(TablePanel tablePanel){
+    public FormPanel(TablePanel tablePanel, List<Voce> voci){
         /*
          * Set layout e border
          */
@@ -65,10 +84,28 @@ public class FormPanel extends JPanel{
 
         aggiungi = new JButton("Aggiungi");
 
-        //Relezione Giorno, Mese, Anno da visualizzare
+        //Giorno, Mese, Anno da visualizzare
         labelVisualizza = new JLabel("Visualizza:");
-        String[] opzioniSeleziona = {"Giorno", "Mese", "Anno"};
-        boxVisualizza = new JComboBox<>(opzioniSeleziona);
+        String[] boxOptions = {"Giorno", "Settimana", "Mese", "Anno", "Altro"};
+        boxVisualizza = new JComboBox<>(boxOptions);
+
+        // Imposto label e field Inizio e Fine 
+        labelInizio = new JLabel("Inizio:");
+        fieldInizio = new JTextField(10);
+        labelFine = new JLabel("Fine:");
+        fieldFine = new JTextField(10);
+        //Defualt sono invisibili, diventano visibili quando l'utente vuole
+        //visualizzare i dati in un range di tempo arbitrario
+        labelInizio.setVisible(false);
+        fieldInizio.setVisible(false);
+        labelFine.setVisible(false);
+        fieldFine.setVisible(false);
+
+        fieldVisualizza = new JTextField(20);
+        fieldVisualizza.setVisible(true);
+
+        visualizza = new JButton("visualizza");
+        indietro = new JButton("Indietro");
 
         //Ricerca
         labelRicerca = new JLabel("Ricerca:");
@@ -84,7 +121,7 @@ public class FormPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e){
                 String data = datePicker.getJFormattedTextField().getText();
-                int ammontare = Integer.parseInt(fieldAmmontare.getText());
+                double ammontare = Integer.parseInt(fieldAmmontare.getText());
                 String descrizione = fieldDescrizione.getText();
 
                 FormEvent formEvent = new FormEvent(this, data, ammontare, descrizione);
@@ -111,16 +148,185 @@ public class FormPanel extends JPanel{
                 if (textToSearch.equals("")){
                     return;
                 }
+                //chiamo il metodo che cerca il testo
+                index = tablePanel.searchText(textToSearch, index);
                 /*
-                 * Se index = -1 stampo errore perchè significa che non ho trovato il testo
-                 * altrimenti chiamo il metodo che cerca il testo
+                 * Se index = -1 stampo errore perchè significa che non ho trovato il testo,
                  */
-                if (index != -1){
-                    index = tablePanel.searchText(textToSearch, index);
-                }
-                else{
+                if (index == -1){
                     JOptionPane.showMessageDialog(FormPanel.this, "Testo non trovato", "Errore", JOptionPane.ERROR_MESSAGE);
                 }
+            }
+        });
+
+        /*
+         * Set label e field per visualizzare i dati nella Tabella
+         */
+        boxVisualizza.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                String boxChoose = boxVisualizza.getSelectedItem().toString();
+
+                if (boxChoose.equals("Altro")){
+                    fieldVisualizza.setVisible(false);
+                    labelInizio.setVisible(true);
+                    fieldInizio.setVisible(true);
+                    labelFine.setVisible(true);
+                    fieldFine.setVisible(true);
+                }
+                else{
+                    fieldVisualizza.setVisible(true);
+                    labelInizio.setVisible(false);
+                    fieldInizio.setVisible(false);
+                    labelFine.setVisible(false);
+                    fieldFine.setVisible(false);
+                }
+            }
+        });
+
+        /*
+         * Gestione bottone Visualizza
+         */
+        visualizza.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                String boxChoose = boxVisualizza.getSelectedItem().toString();
+                Date inizio = null;
+                Date fine = null;
+
+                switch(boxChoose){
+                    case "Giorno": {
+                        String day = fieldVisualizza.getText();
+                        try {
+                            inizio = new SimpleDateFormat("dd/MM/yyyy").parse(day);
+                            fine = new SimpleDateFormat("dd/MM/yyyy").parse(day);
+
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                            JOptionPane.showMessageDialog(FormPanel.this, "Formato data errato\n Scrivere data nel formato dd/MM/yyyy", 
+                            "Errore", JOptionPane.ERROR_MESSAGE);
+                        }
+                        break;
+                    }
+                    
+                    case "Settimana": {
+                        String week = fieldVisualizza.getText();
+                        try {
+                            inizio = new SimpleDateFormat("dd/MM/yyyy").parse(week);
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTime(inizio);
+                            calendar.add(Calendar.DATE, 7);
+                            fine = calendar.getTime();
+
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                            JOptionPane.showMessageDialog(FormPanel.this, "Formato data errato\n Scrivere data nel formato dd/MM/yyyy",
+                             "Errore", JOptionPane.ERROR_MESSAGE);
+                        }
+                        break;
+                    } 
+
+                    case "Mese": {
+                        String date = fieldVisualizza.getText();
+                        Calendar calendar = Calendar.getInstance();
+
+                        try {
+                            int month = Integer.parseInt(date.substring(0, 2));
+                            int year = Integer.parseInt(date.substring(3));
+                            // calendar conta i mesi da 0 a 11, quindi bisogna sottrarre 1
+                            calendar.set(Calendar.MONTH, month - 1); 
+                            calendar.set(Calendar.YEAR, year);
+                            // impostare il primo giorno del mese
+                            calendar.set(Calendar.DAY_OF_MONTH, 1);
+                            // ottenere la data di inizio nel tipo Date
+                            inizio = calendar.getTime(); 
+
+                            // impostare l'ultimo giorno del mese
+                            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+                            // ottenere la data di fine nel tipo Date
+                            fine = calendar.getTime(); 
+
+                        } catch (NumberFormatException e1) {
+                            e1.printStackTrace();
+                            JOptionPane.showMessageDialog(FormPanel.this, "Formato data errato\n Scrivere mese e anno nel formato MM/yyyy", 
+                            "Errore", JOptionPane.ERROR_MESSAGE);
+                        }
+                        break;
+                    }
+
+                    case "Anno": {
+                        int year = 0;
+                        // Try Catch per controllare che l'anno sia giusto
+                        try{
+                            year = Integer.parseInt(fieldVisualizza.getText());
+                        }catch (NumberFormatException e1) {
+                            e1.printStackTrace();
+                            JOptionPane.showMessageDialog(FormPanel.this, "Anno errato\n Scrivere anno nel formato yyyy", 
+                            "Errore", JOptionPane.ERROR_MESSAGE);
+                        }
+
+                        Calendar cal = Calendar.getInstance();
+                        // set anno con quello inserito dall'utente
+                        cal.set(Calendar.YEAR, year);
+                        // set mese con Gennaio
+                        cal.set(Calendar.MONTH, Calendar.JANUARY);
+                        // set giorno 1
+                        cal.set(Calendar.DAY_OF_MONTH, 1);
+                        // ottenere la data di inizio nel tipo Date
+                        inizio = cal.getTime();
+                        
+                        // set mese con Gennaio
+                        cal.set(Calendar.MONTH, Calendar.DECEMBER);
+                        // set giorno 31
+                        cal.set(Calendar.DAY_OF_MONTH, 31);
+                        // ottenere la data di fine nel tipo Date
+                        fine = cal.getTime();
+                        break;
+                    }
+
+                    case "Altro": {
+                        String inizioStr = fieldInizio.getText();
+                        String fineStr = fieldFine.getText();
+                        try {
+                            inizio = new SimpleDateFormat("dd/MM/yyyy").parse(inizioStr);
+                            fine = new SimpleDateFormat("dd/MM/yyyy").parse(fineStr);
+
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                            JOptionPane.showMessageDialog(FormPanel.this, "Formato data errato\n Scrivere data nel formato dd/MM/yyyy", 
+                            "Errore", JOptionPane.ERROR_MESSAGE);
+                        }
+                        break;
+                    }
+                }
+
+                ArrayList<Voce> newVoci = new ArrayList<Voce>();
+                //Creo il nuovo array di appoggio con le voci comprese nelle date di inizio e fine
+                for (Voce v : voci){
+                    try {
+                        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(v.getData());
+                        if (date.compareTo(inizio) >= 0 && date.compareTo(fine) <= 0){
+                            newVoci.add(v);
+                        }
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+                
+                tablePanel.setData(newVoci);
+                tablePanel.aggiorna();
+            }
+        });
+
+        /*
+         * Gestione bottone Indietro
+         */
+        indietro.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                //Torno alla tabella coi dati iniziali
+                tablePanel.setData(voci);
+                tablePanel.aggiorna();
             }
         });
 
@@ -180,36 +386,98 @@ public class FormPanel extends JPanel{
         gbc.insets = new Insets(5, 0, 0, 0);
         add(fieldDescrizione, gbc);
 
-        //gbc label Visualizza
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.weightx = 0.01;
-        gbc.weighty = 0.01;
-        gbc.anchor = GridBagConstraints.LINE_END;
-        gbc.insets = new Insets(5, 0, 0, 5);
-        add(labelVisualizza, gbc);
-        //gbc ComboBox Visualizza
-        gbc.gridx = 1;
-        gbc.gridy = 3;
-        gbc.weightx = 0.01;
-        gbc.weighty = 0.01;
-        gbc.anchor = GridBagConstraints.LINE_START;
-        gbc.insets = new Insets(5, 0, 0, 0);
-        add(boxVisualizza, gbc);
-
         //gbc bottone Aggiungi
         gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
+        gbc.gridy = 3;
+        gbc.weightx = 0.5;
+        gbc.weighty = 0.5;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.insets = new Insets(10, 0, 0, 0);
         add(aggiungi, gbc);
 
-        //gbc etichetta Ricerca
+        //gbc label Visualizza
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        add(labelVisualizza, gbc);
+        //gbc ComboBox Visualizza
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        add(boxVisualizza, gbc);
+        //gbc field Visualizza
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.insets = new Insets(0, 100, 0, 0);
+        add(fieldVisualizza, gbc);
+
+        //gbc etichetta Inizio
         gbc.gridx = 0;
         gbc.gridy = 5;
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.insets = new Insets(5, 0, 0, 0);
+        add(labelInizio, gbc);
+        //gbc field Inizio
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.insets = new Insets(5, 40, 0, 0);
+        add(fieldInizio, gbc);
+
+        //gbc etichetta Fine
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.insets = new Insets(8, 90, 0, 0);
+        add(labelFine, gbc);
+        //gbc field Fine
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        gbc.weightx = 0.01;
+        gbc.weighty = 0.01;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.insets = new Insets(5, 125, 0, 0);
+        add(fieldFine, gbc);
+
+        //gbc bottone Visualizza
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.weightx = 0.3;
+        gbc.weighty = 0.3;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.PAGE_START;
+        gbc.insets = new Insets(10, 0, 0, 130);
+        add(visualizza, gbc);
+
+        //gbc bottone Indietro
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        gbc.weightx = 0.3;
+        gbc.weighty = 0.3;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.PAGE_START;
+        gbc.insets = new Insets(10, 0, 0, 0);
+        add(indietro, gbc);
+
+        //gbc etichetta Ricerca
+        gbc.gridx = 0;
+        gbc.gridy = 7;
         gbc.weightx = 0.01;
         gbc.weighty = 0.01;
         gbc.anchor = GridBagConstraints.LINE_START;
@@ -217,7 +485,7 @@ public class FormPanel extends JPanel{
         add(labelRicerca, gbc);
         //gbc field Ricerca
         gbc.gridx = 1;
-        gbc.gridy = 5;
+        gbc.gridy = 7;
         gbc.weightx = 0.01;
         gbc.weighty = 0.01;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -226,12 +494,12 @@ public class FormPanel extends JPanel{
 
         //gbc bottone Ricerca
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 8;
         gbc.weightx = 0.01;
         gbc.weighty = 0.01;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.LINE_START;
-        gbc.insets = new Insets(5, 110, 0, 0);
+        gbc.insets = new Insets(5, 150, 0, 0);
         add(ricerca, gbc);
     }
 

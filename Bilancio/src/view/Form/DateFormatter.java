@@ -21,7 +21,7 @@ public class DateFormatter extends AbstractFormatter{
     public String valueToString(Object value) throws ParseException {
         if(value != null){
             Calendar calendar = (Calendar)value;
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             String strDate = dateFormat.format(calendar.getTime());
 
             return strDate;

@@ -10,10 +10,32 @@ import javax.swing.JOptionPane;
  * in modo che il programma chieda se si voglia sovrascrivere
  * un file esistente
  */
-public class FileChooserBilancio extends JFileChooser{
+public class FileChooser extends JFileChooser{
+    int typeChoose;
+    /*
+     * typeChoose serve per capire se il file che stiamo salvando è
+     * 1-tipo Bilancio .bil
+     * 2-tipo Testo .txt
+     * 3-tipo CSV .csv
+     */
+    public FileChooser(int typeChoose){
+        this.typeChoose = typeChoose;
+    }
+
     @Override
     public void approveSelection(){
-        File f = new File(getSelectedFile().toString()+".bil");
+        File f;
+        switch(typeChoose){
+            case 1: f = new File(getSelectedFile().toString()+".bil"); break;
+
+            case 2: f = new File(getSelectedFile().toString()+".txt"); break;
+
+            case 3: f = new File(getSelectedFile().toString()+".csv"); break;
+
+            case default: f = new File(getSelectedFile().toString()+".bil");
+        }
+
+        //Se il file esiste appare la pagina di popup che chiede se sovrascrivere il file oppure no
         if(f.exists() && getDialogType() == SAVE_DIALOG){
             int result = JOptionPane.showConfirmDialog(this,"Il file esiste, sovrascriverlo?","File esistente",JOptionPane.YES_NO_CANCEL_OPTION);
             switch(result){

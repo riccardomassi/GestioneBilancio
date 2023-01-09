@@ -3,8 +3,12 @@ package view;
 import javax.swing.*;
 
 import controller.Controller;
-import view.File.FileChooserBilancio;
-import view.File.FileFilterBilancio;
+import view.File.CSVExporter;
+import view.File.FileChooser;
+import view.File.FilterCSV;
+import view.File.FilterFile;
+import view.File.FilterText;
+import view.File.TextExporter;
 import view.File.Utils;
 import view.Form.FormEvent;
 import view.Form.FormListener;
@@ -15,17 +19,20 @@ import view.Table.TablePanel;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class Frame extends JFrame{
 
     private TablePanel tablePanel;
     private FormPanel formPanel;
     private Controller controller;
-    private FileChooserBilancio fileChooser;
 
     private JTextField fieldTotale;
+
+    private FileChooser fileChooser;
+    
+    private TextExporter textExporter;
+
 
     public Frame(){
         /*
@@ -36,15 +43,11 @@ public class Frame extends JFrame{
         setJMenuBar(creaBarraMenu());
 
         tablePanel = new TablePanel();
-        formPanel = new FormPanel(tablePanel);
         controller = new Controller();
+        formPanel = new FormPanel(tablePanel, controller.getVoci());
 
         fieldTotale = new JTextField(25);
         fieldTotale.setEditable(false);
-
-        fileChooser = new FileChooserBilancio();
-        fileChooser.addChoosableFileFilter(new FileFilterBilancio());
-        fileChooser.setAcceptAllFileFilterUsed(false);
 
         /*
          * prendo la lista di Voci dal Database e la passo al Tabella attraverso il Controller
@@ -60,7 +63,7 @@ public class Frame extends JFrame{
             @Override
             public void formEventListener(FormEvent fe){
                 String data = fe.getData();
-                int ammontare = fe.getAmmontare();
+                double ammontare = fe.getAmmontare();
                 String descrizione = fe.getDescrizione();
 
                 controller.addVoce(data, ammontare, descrizione);
@@ -146,6 +149,11 @@ public class Frame extends JFrame{
         menuItemImporta.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
+                //setto il FileChooser per il tipo File
+                fileChooser = new FileChooser(1);
+                fileChooser.addChoosableFileFilter(new FilterFile());
+                fileChooser.setAcceptAllFileFilterUsed(false);
+                
                 if (fileChooser.showOpenDialog(Frame.this) == JFileChooser.APPROVE_OPTION){
                     try {
                         controller.caricaDaFile(fileChooser.getSelectedFile());
@@ -164,6 +172,11 @@ public class Frame extends JFrame{
         esportaFile.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
+                //setto il FileChooser per il tipo File
+                fileChooser = new FileChooser(1);
+                fileChooser.addChoosableFileFilter(new FilterFile());
+                fileChooser.setAcceptAllFileFilterUsed(false);
+
                 if (fileChooser.showSaveDialog(Frame.this) == JFileChooser.APPROVE_OPTION){
                     try {
                         File f = fileChooser.getSelectedFile();
@@ -173,6 +186,62 @@ public class Frame extends JFrame{
                         }
 
                         controller.salvaSuFile(f);
+
+                    } catch (IOException e1) {
+                        JOptionPane.showMessageDialog(Frame.this, "Impossibile esportare i dati su file", "Errore", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
+
+        //Action event che mi permette di gestire l'esportazione su file di tipo Testo
+        esportaTesto.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                //setto il FileChooser per il tipo Testo
+                fileChooser = new FileChooser(2);
+                fileChooser.addChoosableFileFilter(new FilterText());
+                fileChooser.setAcceptAllFileFilterUsed(false);
+
+                if (fileChooser.showSaveDialog(Frame.this) == JFileChooser.APPROVE_OPTION){
+                    try {
+                        File f = fileChooser.getSelectedFile();
+                        //se il file non ha estensione o é diversa da .bil, viene inserita l'estensione .bil
+                        if (Utils.getExtension(f) == null || !Utils.getExtension(f).equalsIgnoreCase("txt")) {
+                            f = new File(f.toString() + ".txt");
+                        }
+
+                        //Polimorfismo
+                        textExporter = new TextExporter();
+                        textExporter.export(tablePanel.getModel(), controller.getVoci(), f);
+
+                    } catch (IOException e1) {
+                        JOptionPane.showMessageDialog(Frame.this, "Impossibile esportare i dati su file", "Errore", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
+
+        //Action event che mi permette di gestire l'esportazione su file di tipo CSV
+        esportaCSV.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                //setto il FileChooser per il tipo CSV
+                fileChooser = new FileChooser(3);
+                fileChooser.addChoosableFileFilter(new FilterCSV());
+                fileChooser.setAcceptAllFileFilterUsed(false);
+
+                if (fileChooser.showSaveDialog(Frame.this) == JFileChooser.APPROVE_OPTION){
+                    try {
+                        File f = fileChooser.getSelectedFile();
+                        //se il file non ha estensione o é diversa da .bil, viene inserita l'estensione .bil
+                        if (Utils.getExtension(f) == null || !Utils.getExtension(f).equalsIgnoreCase("csv")) {
+                            f = new File(f.toString() + ".csv");
+                        }
+
+                        //Polimorfismo
+                        textExporter = new CSVExporter();
+                        textExporter.export(tablePanel.getModel(), controller.getVoci(), f);
 
                     } catch (IOException e1) {
                         JOptionPane.showMessageDialog(Frame.this, "Impossibile esportare i dati su file", "Errore", JOptionPane.ERROR_MESSAGE);

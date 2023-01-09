@@ -6,44 +6,23 @@ import java.io.Serializable;
  * Classe che gestisce il modello Voce
  */
 public class Voce implements Serializable{
-    private static int contatore = 0;
-    private int id;
     private String data;
-    private int ammontare;
+    private Double ammontare;
     private String descrizione;
     
 
-    public Voce(String data, int ammontare, String descrizione) {
-        id = contatore;
+    public Voce(String data, double ammontare, String descrizione) {
         this.data = data;
         this.ammontare = ammontare;
         this.descrizione = descrizione;
-        contatore++;
-    }
-    
-    /** 
-     * @return int
-     */
-    public int getId() {
-        return this.id;
     }
 
-    
-    /** 
-     * @param id
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    
     /** 
      * @return String
      */
     public String getData() {
         return this.data;
     }
-
     
     /** 
      * @param data
@@ -51,12 +30,11 @@ public class Voce implements Serializable{
     public void setData(String data) {
         this.data = data;
     }
-
     
     /** 
      * @return String
      */
-    public int getAmmontare() {
+    public double getAmmontare() {
         return this.ammontare;
     }
 
@@ -64,7 +42,7 @@ public class Voce implements Serializable{
     /** 
      * @param ammontare
      */
-    public void setAmmontare(int ammontare) {
+    public void setAmmontare(double ammontare) {
         this.ammontare = ammontare;
     }
 

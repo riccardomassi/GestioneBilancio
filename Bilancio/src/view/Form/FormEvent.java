@@ -5,13 +5,13 @@ import java.util.EventObject;
 public class FormEvent extends EventObject{
 
     private String data;
-    private int ammontare;
+    private Double ammontare;
     private String descrzione;
 
     public FormEvent(Object source) {
         super(source);
     } 
-    public FormEvent(Object source, String data, int ammontare, String descrzione) {
+    public FormEvent(Object source, String data, double ammontare, String descrzione) {
         super(source);
         this.data = data;
         this.ammontare = ammontare;
@@ -38,7 +38,7 @@ public class FormEvent extends EventObject{
     /** 
      * @return String
      */
-    public int getAmmontare() {
+    public double getAmmontare() {
         return this.ammontare;
     }
 
@@ -46,7 +46,7 @@ public class FormEvent extends EventObject{
     /** 
      * @param ammontare
      */
-    public void setAmmontare(int ammontare) {
+    public void setAmmontare(double ammontare) {
         this.ammontare = ammontare;
     }
 

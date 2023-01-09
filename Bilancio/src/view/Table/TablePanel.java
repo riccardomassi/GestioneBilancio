@@ -83,17 +83,9 @@ public class TablePanel extends JPanel {
     public int searchText(String textToSearch, int currentIndex){
         currentIndex = findNextIndex(textToSearch, currentIndex + 1);
         if (currentIndex != -1){
-            for (int i = currentIndex; i < tableModel.getRowCount(); i++) {
-                for (int j = 0; j < tableModel.getRowCount(); j++) {
-                    //Salvo il valore di ogni cella in una stringa
-                    String descrizione = tableModel.getValueAt(i, j).toString();
-                        if (descrizione.contains(textToSearch)) {
-                            //Evidenzio la riga che contiene la stringa trovata
-                            table.setRowSelectionInterval(i, i);
-                            return i;
-                        }
-                }
-            }
+            //Evidenzio la riga che contiene la stringa trovata
+            table.setRowSelectionInterval(currentIndex, currentIndex);
+            return currentIndex;
         }
 
         return -1;
@@ -105,9 +97,11 @@ public class TablePanel extends JPanel {
      */
     private int findNextIndex(String textToSearch, int startIndex) {
         for (int i = startIndex; i < tableModel.getRowCount(); i++) {
-            for (int j = 0; j < tableModel.getRowCount(); j++) {
+            for (int j = 0; j < tableModel.getColumnCount(); j++) {
+                //salvo ogni cella in una stringa da confrontare col testo
                 String descrizione = tableModel.getValueAt(i, j).toString();
                     if (descrizione.contains(textToSearch)) {
+                        //ritorno l'indice della riga in cui è stato trovato il testo
                         return i;
                     }
             }
@@ -120,5 +114,12 @@ public class TablePanel extends JPanel {
      */
     public void setTableListener(TableListener tableListener){
         this.tableListener = tableListener;
+    }   
+
+    /*
+     * Metodo per ottenere il TableModel
+     */
+    public TableModel getModel(){
+        return tableModel;
     }
 }

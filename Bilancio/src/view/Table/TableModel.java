@@ -70,7 +70,7 @@ public class TableModel extends AbstractTableModel{
             case 0: return voce.getData();
             case 1: return voce.getAmmontare();
             case 2: return voce.getDescrizione();
-            default: return null;
+            default: return "";
         }
     }
     

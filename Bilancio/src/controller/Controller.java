@@ -23,7 +23,7 @@ public class Controller {
      * 
      * Metodo che aggiunge una Voce al Database
      */
-    public void addVoce(String data, int ammontare, String descrizione){
+    public void addVoce(String data, double ammontare, String descrizione){
         //creazione voce
         Voce voce = new Voce(data, ammontare, descrizione);
         database.addVoce(voce);
