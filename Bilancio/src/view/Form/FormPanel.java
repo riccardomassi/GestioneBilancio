@@ -84,7 +84,7 @@ public class FormPanel extends JPanel{
 
         aggiungi = new JButton("Aggiungi");
 
-        //Giorno, Mese, Anno da visualizzare
+        //Giorno, Settimana, Mese, Anno da visualizzare
         labelVisualizza = new JLabel("Visualizza:");
         String[] boxOptions = {"Giorno", "Settimana", "Mese", "Anno", "Altro"};
         boxVisualizza = new JComboBox<>(boxOptions);

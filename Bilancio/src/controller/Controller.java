@@ -8,8 +8,7 @@ import model.Database;
 import model.Voce;
 
 /*
- * Controller che si occupa di aggiungere le voci al Databse
- * (fa da intermezzo tra la parte View e il Database)
+ * Classe che fa da intermezzo tra la parte View e la parte Database
  */
 public class Controller {
 
@@ -17,15 +16,16 @@ public class Controller {
 
     
     /** 
-     * @param data
-     * @param ammontare
-     * @param descrizione
+     * @param data data da inserire nella voce
+     * @param ammontare valore ammontare da inserire nella voce
+     * @param descrizione descrizione da inserire nella voce
      * 
      * Metodo che aggiunge una Voce al Database
      */
     public void addVoce(String data, double ammontare, String descrizione){
         //creazione voce
         Voce voce = new Voce(data, ammontare, descrizione);
+        // richiamo il metodo che inserisce una voce nel database
         database.addVoce(voce);
     }
 
@@ -47,14 +47,28 @@ public class Controller {
         return database.getVoci();
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getTotale(){
         return database.getTotale();
     }
 
+    
+    /** 
+     * @param file
+     * @throws IOException
+     */
     public void salvaSuFile(File file) throws IOException{
         database.salvaSuFile(file);
     }
 
+    
+    /** 
+     * @param file
+     * @throws IOException
+     */
     public void caricaDaFile(File file) throws IOException{
         database.caricaDaFile(file);
     }

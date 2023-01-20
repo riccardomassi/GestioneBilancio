@@ -44,6 +44,10 @@ public class Database {
         return voci;
     }
 
+    
+    /** 
+     * @return String
+     */
     /*
      * Metodo che ritorna la somma totale
      * delle voci del bilancio
@@ -57,6 +61,11 @@ public class Database {
         return "Totale: "+totale;
     }
 
+    
+    /** 
+     * @param file
+     * @throws IOException
+     */
     public void salvaSuFile(File file) throws IOException{
 
         FileOutputStream fos = new FileOutputStream(file);
@@ -72,6 +81,11 @@ public class Database {
         
     }
 
+    
+    /** 
+     * @param file
+     * @throws IOException
+     */
     public void caricaDaFile(File file) throws IOException{
 
         FileInputStream fis = new FileInputStream(file);
