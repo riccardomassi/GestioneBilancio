@@ -30,7 +30,7 @@ public class Controller {
     }
 
     /** 
-     * @param int
+     * @param int indice della riga da eliminare
      * 
      * Metodo che elimina una Voce dal Database
      */
@@ -49,7 +49,19 @@ public class Controller {
 
     
     /** 
-     * @return String
+     * @param index indice riga da modificare
+     * @param voceToChange voce da modificare
+     * 
+     * Metodo che modifica una voce
+     */
+    public void modifyVoce(int index, Voce voceToChange){
+        database.modifyVoce(index, voceToChange);
+    }
+    
+    /** 
+     * @return String 
+     * 
+     * Metodo che ritorna il totale della somma dei vari ammontare
      */
     public String getTotale(){
         return database.getTotale();
@@ -57,7 +69,7 @@ public class Controller {
 
     
     /** 
-     * @param file
+     * @param file nome file su cui salvare
      * @throws IOException
      */
     public void salvaSuFile(File file) throws IOException{
@@ -66,7 +78,7 @@ public class Controller {
 
     
     /** 
-     * @param file
+     * @param file nome file dal quale caricare
      * @throws IOException
      */
     public void caricaDaFile(File file) throws IOException{

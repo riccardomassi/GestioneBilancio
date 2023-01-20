@@ -18,7 +18,7 @@ public class TableModel extends AbstractTableModel{
 
     
     /** 
-     * @param listaVoci
+     * @param listaVoci lista delle voci della Tabella
      */
     public void setData(List<Voce> listaVoci){
         this.listaVoci = listaVoci;
@@ -38,7 +38,7 @@ public class TableModel extends AbstractTableModel{
 
     
     /** 
-     * @return int
+     * @return int numero colonne
      */
     @Override
     public int getColumnCount() {
@@ -47,7 +47,7 @@ public class TableModel extends AbstractTableModel{
 
     
     /** 
-     * @return int
+     * @return int numero righe
      */
     @Override
     public int getRowCount() {
@@ -55,9 +55,11 @@ public class TableModel extends AbstractTableModel{
     }
     
     /** 
-     * @param rowIndex
-     * @param columnIndex
+     * @param rowIndex indice riga
+     * @param columnIndex indice colonna
      * @return Object
+     * 
+     * Metodo che ritorna il valore della riga e colonna passati
      */
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
@@ -73,5 +75,4 @@ public class TableModel extends AbstractTableModel{
             default: return "";
         }
     }
-    
 }

@@ -12,11 +12,25 @@ import javax.swing.JFormattedTextField.AbstractFormatter;
  */
 public class DateFormatter extends AbstractFormatter{
 
+    
+    /** 
+     * @param text
+     * @return Object
+     * @throws ParseException
+     */
     @Override
     public Object stringToValue(String text) throws ParseException {
         return null;
     }
 
+    
+    /** 
+     * @param value valore della data selezionata
+     * @return String data selezionata convertita in stringa
+     * @throws ParseException
+     * 
+     * Metodod che ritorna la data selezionata in formato stringa
+     */
     @Override
     public String valueToString(Object value) throws ParseException {
         if(value != null){

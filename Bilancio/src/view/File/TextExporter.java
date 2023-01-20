@@ -9,17 +9,28 @@ import javax.swing.table.TableModel;
 
 import model.Voce;
 
+/*
+ * Classe che permette di esportare la tabella in formato testo
+ * ovvero ogni voce separata da uno spazio
+ */
 public class TextExporter {
     public TextExporter(){
 
     }
 
+    
+    /** 
+     * @param tableModel modello astratto della tabella
+     * @param voci ArrayList contenente le voci della tabella
+     * @param fileName nome file su cui salvare
+     * @throws IOException
+     */
     public void export(TableModel tableModel, List<Voce> voci, File fileName) throws IOException{
         FileWriter txtWriter;
         try {
             txtWriter = new FileWriter(fileName);
 
-            // scrive l'intestazione del file CSV
+            // scrive l'intestazione del file di testo
             for (int i = 0; i < tableModel.getColumnCount(); i++) {
                 txtWriter.append(tableModel.getColumnName(i));
                 txtWriter.append(" ");

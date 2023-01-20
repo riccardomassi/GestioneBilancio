@@ -7,6 +7,9 @@ import java.util.List;
 import model.Voce;
 import java.awt.event.*;
 
+/*
+ * Classe che gestisce il pannello della Tabella
+ */
 public class TablePanel extends JPanel {
     
     private JTable table;
@@ -17,6 +20,7 @@ public class TablePanel extends JPanel {
     public TablePanel(){
         tableModel = new TableModel();
         table = new JTable(tableModel);
+        table.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()));
 
         /*
          * Gestione Popup Menu tasto destro per eliminare
@@ -76,7 +80,12 @@ public class TablePanel extends JPanel {
         tableModel.fireTableDataChanged();
     }
 
-    /*
+    
+    /** 
+     * @param textToSearch testo da cercare 
+     * @param currentIndex indice di riga corrente
+     * @return int
+     *
      * Metodo che cerca la stringa passata a partire dall'indice di riga passato 
      * all'interno della Tabella, e se la trova viene evidenziata
      */
@@ -91,7 +100,12 @@ public class TablePanel extends JPanel {
         return -1;
     }
 
-    /*
+    
+    /** 
+     * @param textToSearch testo da cercare
+     * @param startIndex inidce riga da cui partire a cercare
+     * @return int
+     *
      * Metodo per la gestione dell'indice di riga di partenza
      * per la ricerca del testo nella tabella
      */
@@ -109,17 +123,32 @@ public class TablePanel extends JPanel {
         return -1;
     }
 
-    /*
+    
+    /** 
+     * @param tableListener
+     *
      * Metodo per impostare il TableListener
      */
     public void setTableListener(TableListener tableListener){
         this.tableListener = tableListener;
     }   
 
-    /*
+    
+    /** 
+     * @return TableModel
+     *
      * Metodo per ottenere il TableModel
      */
     public TableModel getModel(){
         return tableModel;
+    }
+
+    /** 
+     * @return Jtable
+     *
+     * Metodo per ottenere il JTable
+     */
+    public JTable getTable(){
+        return table;
     }
 }

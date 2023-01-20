@@ -39,6 +39,7 @@ public class FormPanel extends JPanel{
     private JTextField fieldVisualizza;
 
     private JButton aggiungi;
+    private JButton modifica;
 
     private JLabel labelRicerca;
     private JTextField fieldRicerca;
@@ -52,7 +53,8 @@ public class FormPanel extends JPanel{
     private JButton visualizza;
     private JButton indietro;
 
-    private FormListener formListener; 
+    private AddListener formListener; 
+    private ModifyListener modifyListener;
 
     public FormPanel(TablePanel tablePanel, List<Voce> voci){
         /*
@@ -76,13 +78,17 @@ public class FormPanel extends JPanel{
         dateFormatter = new DateFormatter();
         datePicker = new JDatePickerImpl(datePanel, dateFormatter);
         
+        // Imposto label e field Ammontare
         labelAmmontare = new JLabel("Ammontare:");
         fieldAmmontare = new JTextField(25);
         
+        // Imposto label e field Descrizione
         labelDescrizione = new JLabel("Descrizione:");
         fieldDescrizione = new JTextField(25);
 
+        // Imposto bottone Aggiungi e Modifica
         aggiungi = new JButton("Aggiungi");
+        modifica = new JButton("Modifica");
 
         //Giorno, Settimana, Mese, Anno da visualizzare
         labelVisualizza = new JLabel("Visualizza:");
@@ -101,19 +107,21 @@ public class FormPanel extends JPanel{
         labelFine.setVisible(false);
         fieldFine.setVisible(false);
 
+        // Imposto field Visualizza
         fieldVisualizza = new JTextField(20);
         fieldVisualizza.setVisible(true);
 
+        // Imposto bottoni Visualizza e Indietro
         visualizza = new JButton("visualizza");
         indietro = new JButton("Indietro");
 
-        //Ricerca
+        // Imposto label, field e bottone Ricerca
         labelRicerca = new JLabel("Ricerca:");
         fieldRicerca = new JTextField(25);
         ricerca = new JButton("Ricerca");
 
         /*
-         * Gestione bottone aggiungi:
+         * Gestione bottone Aggiungi:
          * Viene creata una classe anonima ActionListener che implementa il metodo actionPerformed,
          * che permette di gestire cosa accade quando viene premuto il bottone
          */
@@ -124,7 +132,8 @@ public class FormPanel extends JPanel{
                 double ammontare = Integer.parseInt(fieldAmmontare.getText());
                 String descrizione = fieldDescrizione.getText();
 
-                FormEvent formEvent = new FormEvent(this, data, ammontare, descrizione);
+                // Creo il FormEvent con i dati della voce appena inseriti
+                AddEvent formEvent = new AddEvent(this, data, ammontare, descrizione);
 
                 /*
                  * Se il formListener é stato settato nel Frame,
@@ -132,6 +141,31 @@ public class FormPanel extends JPanel{
                  */
                 if(formListener != null){
                     formListener.formEventListener(formEvent);
+                }
+            }
+        });
+
+        /*
+         * Gestione bottone Modifica
+         */
+        modifica.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                String data = datePicker.getJFormattedTextField().getText();
+                double ammontare = Integer.parseInt(fieldAmmontare.getText());
+                String descrizione = fieldDescrizione.getText();
+
+                int rowToChange = tablePanel.getTable().getSelectedRow();
+                Voce voceToChange = new Voce(data, ammontare, descrizione);
+
+                ModifyEvent modifyEvent = new ModifyEvent(this, voceToChange, rowToChange);
+                
+                /*
+                 * Se il formListener é stato settato nel Frame,
+                 * gli passo il formEvent appena creato
+                 */
+                if(modifyListener != null){
+                    modifyListener.modifyEventListener(modifyEvent);
                 }
             }
         });
@@ -167,6 +201,11 @@ public class FormPanel extends JPanel{
             public void actionPerformed(ActionEvent e){
                 String boxChoose = boxVisualizza.getSelectedItem().toString();
 
+                /*
+                 * Se l'utente seleziona Altro devo mostrare
+                 * i label e i field di Inizio e Fine per inserire una data arbitraria
+                 * altrimenti mostro solamente i label e field Visualizza
+                 */
                 if (boxChoose.equals("Altro")){
                     fieldVisualizza.setVisible(false);
                     labelInizio.setVisible(true);
@@ -195,6 +234,10 @@ public class FormPanel extends JPanel{
                 Date fine = null;
 
                 switch(boxChoose){
+                    /*
+                     * Prendo la data inserita e la setto come
+                     * inizio e fine range 
+                     */
                     case "Giorno": {
                         String day = fieldVisualizza.getText();
                         try {
@@ -209,13 +252,18 @@ public class FormPanel extends JPanel{
                         break;
                     }
                     
+                    /*
+                     * Prendo la data inserita e la setto come
+                     * inizio range e poi aggiungo 6 giorni e setto
+                     * la data di fine range
+                     */
                     case "Settimana": {
                         String week = fieldVisualizza.getText();
                         try {
                             inizio = new SimpleDateFormat("dd/MM/yyyy").parse(week);
                             Calendar calendar = Calendar.getInstance();
                             calendar.setTime(inizio);
-                            calendar.add(Calendar.DATE, 7);
+                            calendar.add(Calendar.DATE, 6);
                             fine = calendar.getTime();
 
                         } catch (ParseException e1) {
@@ -226,6 +274,11 @@ public class FormPanel extends JPanel{
                         break;
                     } 
 
+                    /*
+                     * Nel field visualizza viene inserito mese e anno (MM/yyyy),
+                     * vado a calcolare il primo e ultimo giorno del mese e 
+                     * li setto come inizio e fine range
+                     */
                     case "Mese": {
                         String date = fieldVisualizza.getText();
                         Calendar calendar = Calendar.getInstance();
@@ -254,6 +307,11 @@ public class FormPanel extends JPanel{
                         break;
                     }
 
+                    /*
+                     * Prendo l'anno inserito,
+                     * setto il primo giorno e mese con 1 gennaio e setto inizio range
+                     * setto il primo giorno e mese con 31 dicembre e setto fine range
+                     */
                     case "Anno": {
                         int year = 0;
                         // Try Catch per controllare che l'anno sia giusto
@@ -275,7 +333,7 @@ public class FormPanel extends JPanel{
                         // ottenere la data di inizio nel tipo Date
                         inizio = cal.getTime();
                         
-                        // set mese con Gennaio
+                        // set mese con Dicembre
                         cal.set(Calendar.MONTH, Calendar.DECEMBER);
                         // set giorno 31
                         cal.set(Calendar.DAY_OF_MONTH, 31);
@@ -284,6 +342,10 @@ public class FormPanel extends JPanel{
                         break;
                     }
 
+                    /*
+                     * Setto inizio e fine range con le date inserite
+                     * nei rispettivi field
+                     */
                     case "Altro": {
                         String inizioStr = fieldInizio.getText();
                         String fineStr = fieldFine.getText();
@@ -313,6 +375,7 @@ public class FormPanel extends JPanel{
                     }
                 }
                 
+                // Aggiorno la tabella coi nuovi dati
                 tablePanel.setData(newVoci);
                 tablePanel.aggiorna();
             }
@@ -393,8 +456,18 @@ public class FormPanel extends JPanel{
         gbc.weighty = 0.5;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.PAGE_START;
-        gbc.insets = new Insets(10, 0, 0, 0);
+        gbc.insets = new Insets(10, 0, 0, 130);
         add(aggiungi, gbc);
+
+        //gbc bottone Modifica
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        gbc.weightx = 0.5;
+        gbc.weighty = 0.5;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.PAGE_START;
+        gbc.insets = new Insets(10, 0, 0, 0);
+        add(modifica, gbc);
 
         //gbc label Visualizza
         gbc.gridx = 0;
@@ -418,7 +491,7 @@ public class FormPanel extends JPanel{
         gbc.weightx = 0.01;
         gbc.weighty = 0.01;
         gbc.anchor = GridBagConstraints.LINE_START;
-        gbc.insets = new Insets(0, 100, 0, 0);
+        gbc.insets = new Insets(0, 110, 0, 0);
         add(fieldVisualizza, gbc);
 
         //gbc etichetta Inizio
@@ -509,7 +582,16 @@ public class FormPanel extends JPanel{
      * 
      * Metodo per impostare il FormListener
      */
-    public void setFormListener(FormListener formListener){
+    public void setFormListener(AddListener formListener){
         this.formListener = formListener;
+    }
+
+    /** 
+     * @param formListener
+     * 
+     * Metodo per impostare il ModifyListener
+     */
+    public void setModifyListener(ModifyListener modifyListener){
+        this.modifyListener = modifyListener;
     }
 }

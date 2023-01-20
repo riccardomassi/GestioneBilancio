@@ -9,11 +9,22 @@ import javax.swing.table.TableModel;
 
 import model.Voce;
 
+/*
+ * Classe che permette di esportare la tabella in formato CSV
+ * ovvero ogni voce separata da una virgola
+ */
 public class CSVExporter extends TextExporter{
     public CSVExporter(){
 
     }
     
+    
+    /** 
+     * @param tableModel modello astratto della tabella
+     * @param voci ArrayList contenente le voci della tabella
+     * @param fileName nome file su cui salvare
+     * @throws IOException
+     */
     @Override
     public void export(TableModel tableModel, List<Voce> voci, File fileName) throws IOException{
         FileWriter csvWriter;

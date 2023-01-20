@@ -3,6 +3,7 @@ package view;
 import javax.swing.*;
 
 import controller.Controller;
+import model.Voce;
 import view.File.CSVExporter;
 import view.File.FileChooser;
 import view.File.FilterCSV;
@@ -10,9 +11,11 @@ import view.File.FilterFile;
 import view.File.FilterText;
 import view.File.TextExporter;
 import view.File.Utils;
-import view.Form.FormEvent;
-import view.Form.FormListener;
+import view.Form.AddEvent;
+import view.Form.AddListener;
 import view.Form.FormPanel;
+import view.Form.ModifyEvent;
+import view.Form.ModifyListener;
 import view.Table.TableEvent;
 import view.Table.TableListener;
 import view.Table.TablePanel;
@@ -21,6 +24,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 
+/*
+ * Classe che si occupa di gestire il Frame
+ */
 public class Frame extends JFrame{
 
     private TablePanel tablePanel;
@@ -42,26 +48,24 @@ public class Frame extends JFrame{
         setLayout(new BorderLayout());
         setJMenuBar(creaBarraMenu());
 
-        tablePanel = new TablePanel();
         controller = new Controller();
+        tablePanel = new TablePanel();
         formPanel = new FormPanel(tablePanel, controller.getVoci());
 
         fieldTotale = new JTextField(25);
         fieldTotale.setEditable(false);
 
         /*
-         * prendo la lista di Voci dal Database e la passo al Tabella attraverso il Controller
+         * prendo la lista di Voci dal Database e la passo alla Tabella attraverso il Controller
          */
         tablePanel.setData(controller.getVoci());
 
         /*
-         * Metodo del FormPanel che permette di aggiungere i dati del FormPanel 
-         * attraverso il FormEvent al Database attraverso il Controller, 
-         * quando viene premuto il tasto Aggiungi
+         * Setto il FormListener per ascoltare l'evento di aggiunta voce
          */
-        formPanel.setFormListener(new FormListener() {
+        formPanel.setFormListener(new AddListener() {
             @Override
-            public void formEventListener(FormEvent fe){
+            public void formEventListener(AddEvent fe){
                 String data = fe.getData();
                 double ammontare = fe.getAmmontare();
                 String descrizione = fe.getDescrizione();
@@ -75,15 +79,33 @@ public class Frame extends JFrame{
         });
 
         /*
-         * Metodo del TablePanel che permette di prendere la riga
-         * della voce da eliminare, per poi passarla al controller e
-         * eliminare la voce dal Database
+         * Setto il MOdifyListener per ascoltare l'evento di modifica voce
+         */
+        formPanel.setModifyListener(new ModifyListener() {
+
+            @Override
+            public void modifyEventListener(ModifyEvent me) {
+                Voce voceToChange = me.getVoceToChange();
+                int rowToChange = me.getRowToChange();
+
+                controller.modifyVoce(rowToChange, voceToChange);
+                tablePanel.aggiorna();
+
+                //gestione somma totale del bilancio
+                fieldTotale.setText(controller.getTotale());
+                
+            }
+            
+        });
+
+        /*
+         * Setto il TableListener per ascoltare gli eventi
+         * del TablePanel
          */
         tablePanel.setTableListener(new TableListener() {
             @Override
             public void tableEventListener(TableEvent te){
                 int rowIndexDelete = te.getRowToDelete();
-
                 controller.delVoce(rowIndexDelete);
 
                 //gestione somma totale del bilancio

@@ -6,7 +6,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /*
- * Classe che implemente l'override del metodo approveSelection,
+ * Classe che implementa l'override del metodo approveSelection,
  * in modo che il programma chieda se si voglia sovrascrivere
  * un file esistente
  */

@@ -46,11 +46,19 @@ public class Database {
 
     
     /** 
-     * @return String
+     * @param index indice riga da modificare
+     * @param voceToChange voce da modificare
+     * 
+     * Metodo che modifica una voce
      */
-    /*
-     * Metodo che ritorna la somma totale
-     * delle voci del bilancio
+    public void modifyVoce(int index, Voce voceToChange){
+        voci.set(index, voceToChange);
+    }
+    
+    /** 
+     * @return String
+     *
+     * Metodo che ritorna la somma totale delle voci del bilancio
      */
     public String getTotale(){
         int totale = 0;
@@ -63,7 +71,7 @@ public class Database {
 
     
     /** 
-     * @param file
+     * @param file nome file su cui salvare
      * @throws IOException
      */
     public void salvaSuFile(File file) throws IOException{
@@ -71,9 +79,10 @@ public class Database {
         FileOutputStream fos = new FileOutputStream(file);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-        //Converto l'arrayList in un array normale
+        //converto l'arrayList in un array normale
         Voce[] arrayVoce = voci.toArray(new Voce[voci.size()]); 
 
+        //scrivo le voci nel file
         oos.writeObject(arrayVoce);
 
         oos.close();
@@ -83,7 +92,7 @@ public class Database {
 
     
     /** 
-     * @param file
+     * @param file nome file dal quale caricare
      * @throws IOException
      */
     public void caricaDaFile(File file) throws IOException{
@@ -92,6 +101,7 @@ public class Database {
         ObjectInputStream ois = new ObjectInputStream(fis);
 
         try {
+            //prendo le voci dal file
             Voce[] vociCaricate = (Voce[])ois.readObject();
 
             //svuoto l'arraylist voci

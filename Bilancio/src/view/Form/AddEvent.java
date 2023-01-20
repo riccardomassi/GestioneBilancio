@@ -2,23 +2,25 @@ package view.Form;
 
 import java.util.EventObject;
 
-public class FormEvent extends EventObject{
+/*
+ * Classe che si occupa di gestire i dati quando avviene un evento nel Form
+ */
+public class AddEvent extends EventObject{
 
     private String data;
     private Double ammontare;
     private String descrzione;
 
-    public FormEvent(Object source) {
+    public AddEvent(Object source) {
         super(source);
     } 
-    public FormEvent(Object source, String data, double ammontare, String descrzione) {
+    public AddEvent(Object source, String data, double ammontare, String descrzione) {
         super(source);
         this.data = data;
         this.ammontare = ammontare;
         this.descrzione = descrzione;
     }
 
-    
     /** 
      * @return String
      */
