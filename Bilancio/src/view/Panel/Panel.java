@@ -38,7 +38,7 @@ public class Panel extends JPanel{
     private JTextField fieldDescrizione;
 
     private JLabel labelVisualizza;
-    private JComboBox boxVisualizza;
+    private JComboBox<String> boxVisualizza;
     private JTextField fieldVisualizza;
 
     private JButton aggiungi;

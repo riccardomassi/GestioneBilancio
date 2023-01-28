@@ -228,7 +228,7 @@ public class Frame extends JFrame{
                 if (fileChooser.showSaveDialog(Frame.this) == JFileChooser.APPROVE_OPTION){
                     try {
                         File f = fileChooser.getSelectedFile();
-                        //se il file non ha estensione o é diversa da .bil, viene inserita l'estensione .bil
+                        //se il file non ha estensione o é diversa da .txt, viene inserita l'estensione .txt
                         if (Utils.getExtension(f) == null || !Utils.getExtension(f).equalsIgnoreCase("txt")) {
                             f = new File(f.toString() + ".txt");
                         }
@@ -256,7 +256,7 @@ public class Frame extends JFrame{
                 if (fileChooser.showSaveDialog(Frame.this) == JFileChooser.APPROVE_OPTION){
                     try {
                         File f = fileChooser.getSelectedFile();
-                        //se il file non ha estensione o é diversa da .bil, viene inserita l'estensione .bil
+                        //se il file non ha estensione o é diversa da .csv, viene inserita l'estensione .csv
                         if (Utils.getExtension(f) == null || !Utils.getExtension(f).equalsIgnoreCase("csv")) {
                             f = new File(f.toString() + ".csv");
                         }

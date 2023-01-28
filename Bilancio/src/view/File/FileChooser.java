@@ -24,15 +24,28 @@ public class FileChooser extends JFileChooser{
 
     @Override
     public void approveSelection(){
-        File f;
+        File f = getSelectedFile();
         switch(typeChoose){
-            case 1: f = new File(getSelectedFile().toString()+".bil"); break;
+            case 1: {
+                //se il file non ha estensione o é diversa da .bil, viene inserita l'estensione .bil
+                if (Utils.getExtension(f) == null || !Utils.getExtension(f).equalsIgnoreCase("bil")) {
+                    f = new File(f.toString() + ".bil");
+                }
+            } break;
 
-            case 2: f = new File(getSelectedFile().toString()+".txt"); break;
+            case 2: {
+                //se il file non ha estensione o é diversa da .txt, viene inserita l'estensione .txt
+                if (Utils.getExtension(f) == null || !Utils.getExtension(f).equalsIgnoreCase("txt")) {
+                    f = new File(f.toString() + ".txt");
+                }
+            } break;
 
-            case 3: f = new File(getSelectedFile().toString()+".csv"); break;
-
-            case default: f = new File(getSelectedFile().toString()+".bil");
+            case 3: {
+                //se il file non ha estensione o é diversa da .csv, viene inserita l'estensione .csv
+                if (Utils.getExtension(f) == null || !Utils.getExtension(f).equalsIgnoreCase("csv")) {
+                    f = new File(f.toString() + ".csv");
+                }
+            } break;
         }
 
         //Se il file esiste appare la pagina di popup che chiede se sovrascrivere il file oppure no
