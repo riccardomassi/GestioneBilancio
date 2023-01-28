@@ -1,0 +1,115 @@
+\hypertarget{classmodel_1_1Database}{}\doxysection{model.\+Database Class Reference}
+\label{classmodel_1_1Database}\index{model.Database@{model.Database}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classmodel_1_1Database_afbefc0b181718102b56e9558ccd6949c}{add\+Voce}} (\mbox{\hyperlink{classmodel_1_1Voce}{Voce}} voce)
+\item 
+void \mbox{\hyperlink{classmodel_1_1Database_aef00eeaa2d5bb7bad35c0a455e16bd82}{del\+Voce}} (int row\+Index)
+\item 
+List$<$ \mbox{\hyperlink{classmodel_1_1Voce}{Voce}} $>$ \mbox{\hyperlink{classmodel_1_1Database_a6328ef9b049d1911f989df53ab639746}{get\+Voci}} ()
+\item 
+void \mbox{\hyperlink{classmodel_1_1Database_ab0a3618e83590eb4193eb15e94f6c3a1}{modify\+Voce}} (int index, \mbox{\hyperlink{classmodel_1_1Voce}{Voce}} voce\+To\+Change)
+\item 
+String \mbox{\hyperlink{classmodel_1_1Database_af5ee7e31581fb4acea8b9cb489acec3d}{get\+Totale}} ()
+\item 
+void \mbox{\hyperlink{classmodel_1_1Database_ad0bc0fce345352e958de852f2f897439}{salva\+Su\+File}} (File file)  throws IOException
+\item 
+void \mbox{\hyperlink{classmodel_1_1Database_afaeffaecd3586d067a9561b53fa1287b}{carica\+Da\+File}} (File file)  throws IOException
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Database che si occupa di tenere memoria di tutte le voci inserite nel Bilancio, attraverso una Array\+List 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classmodel_1_1Database_afbefc0b181718102b56e9558ccd6949c}\label{classmodel_1_1Database_afbefc0b181718102b56e9558ccd6949c}} 
+\index{model.Database@{model.Database}!addVoce@{addVoce}}
+\index{addVoce@{addVoce}!model.Database@{model.Database}}
+\doxysubsubsection{\texorpdfstring{addVoce()}{addVoce()}}
+{\footnotesize\ttfamily void model.\+Database.\+add\+Voce (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classmodel_1_1Voce}{Voce}}}]{voce }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em Voce} & \\
+\hline
+\end{DoxyParams}
+Metodo che aggiunge una Voce al Database \mbox{\Hypertarget{classmodel_1_1Database_afaeffaecd3586d067a9561b53fa1287b}\label{classmodel_1_1Database_afaeffaecd3586d067a9561b53fa1287b}} 
+\index{model.Database@{model.Database}!caricaDaFile@{caricaDaFile}}
+\index{caricaDaFile@{caricaDaFile}!model.Database@{model.Database}}
+\doxysubsubsection{\texorpdfstring{caricaDaFile()}{caricaDaFile()}}
+{\footnotesize\ttfamily void model.\+Database.\+carica\+Da\+File (\begin{DoxyParamCaption}\item[{File}]{file }\end{DoxyParamCaption}) throws IOException}
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & nome file dal quale caricare \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em IOException} & \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classmodel_1_1Database_aef00eeaa2d5bb7bad35c0a455e16bd82}\label{classmodel_1_1Database_aef00eeaa2d5bb7bad35c0a455e16bd82}} 
+\index{model.Database@{model.Database}!delVoce@{delVoce}}
+\index{delVoce@{delVoce}!model.Database@{model.Database}}
+\doxysubsubsection{\texorpdfstring{delVoce()}{delVoce()}}
+{\footnotesize\ttfamily void model.\+Database.\+del\+Voce (\begin{DoxyParamCaption}\item[{int}]{row\+Index }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em int} & \\
+\hline
+\end{DoxyParams}
+Metodo che elimina una Voce dal Database \mbox{\Hypertarget{classmodel_1_1Database_af5ee7e31581fb4acea8b9cb489acec3d}\label{classmodel_1_1Database_af5ee7e31581fb4acea8b9cb489acec3d}} 
+\index{model.Database@{model.Database}!getTotale@{getTotale}}
+\index{getTotale@{getTotale}!model.Database@{model.Database}}
+\doxysubsubsection{\texorpdfstring{getTotale()}{getTotale()}}
+{\footnotesize\ttfamily String model.\+Database.\+get\+Totale (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+String
+\end{DoxyReturn}
+Metodo che ritorna la somma totale delle voci del bilancio \mbox{\Hypertarget{classmodel_1_1Database_a6328ef9b049d1911f989df53ab639746}\label{classmodel_1_1Database_a6328ef9b049d1911f989df53ab639746}} 
+\index{model.Database@{model.Database}!getVoci@{getVoci}}
+\index{getVoci@{getVoci}!model.Database@{model.Database}}
+\doxysubsubsection{\texorpdfstring{getVoci()}{getVoci()}}
+{\footnotesize\ttfamily List$<$ \mbox{\hyperlink{classmodel_1_1Voce}{Voce}} $>$ model.\+Database.\+get\+Voci (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+List$<$\+Voce$>$
+\end{DoxyReturn}
+Metodo che ritorna la lista delle Voci inserite nel Database \mbox{\Hypertarget{classmodel_1_1Database_ab0a3618e83590eb4193eb15e94f6c3a1}\label{classmodel_1_1Database_ab0a3618e83590eb4193eb15e94f6c3a1}} 
+\index{model.Database@{model.Database}!modifyVoce@{modifyVoce}}
+\index{modifyVoce@{modifyVoce}!model.Database@{model.Database}}
+\doxysubsubsection{\texorpdfstring{modifyVoce()}{modifyVoce()}}
+{\footnotesize\ttfamily void model.\+Database.\+modify\+Voce (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{\mbox{\hyperlink{classmodel_1_1Voce}{Voce}}}]{voce\+To\+Change }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & indice riga da modificare \\
+\hline
+{\em voce\+To\+Change} & voce da modificare\\
+\hline
+\end{DoxyParams}
+Metodo che modifica una voce \mbox{\Hypertarget{classmodel_1_1Database_ad0bc0fce345352e958de852f2f897439}\label{classmodel_1_1Database_ad0bc0fce345352e958de852f2f897439}} 
+\index{model.Database@{model.Database}!salvaSuFile@{salvaSuFile}}
+\index{salvaSuFile@{salvaSuFile}!model.Database@{model.Database}}
+\doxysubsubsection{\texorpdfstring{salvaSuFile()}{salvaSuFile()}}
+{\footnotesize\ttfamily void model.\+Database.\+salva\+Su\+File (\begin{DoxyParamCaption}\item[{File}]{file }\end{DoxyParamCaption}) throws IOException}
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & nome file su cui salvare \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em IOException} & \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/model/Database.\+java\end{DoxyCompactItemize}

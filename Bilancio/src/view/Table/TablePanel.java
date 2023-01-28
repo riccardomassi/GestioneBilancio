@@ -7,7 +7,7 @@ import java.util.List;
 import model.Voce;
 import java.awt.event.*;
 
-/*
+/**
  * Classe che gestisce il pannello della Tabella
  */
 public class TablePanel extends JPanel {

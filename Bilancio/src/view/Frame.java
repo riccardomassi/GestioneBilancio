@@ -11,11 +11,11 @@ import view.File.FilterFile;
 import view.File.FilterText;
 import view.File.TextExporter;
 import view.File.Utils;
-import view.Form.AddEvent;
-import view.Form.AddListener;
-import view.Form.FormPanel;
-import view.Form.ModifyEvent;
-import view.Form.ModifyListener;
+import view.Panel.AddEvent;
+import view.Panel.AddListener;
+import view.Panel.ModifyEvent;
+import view.Panel.ModifyListener;
+import view.Panel.Panel;
 import view.Table.TableEvent;
 import view.Table.TableListener;
 import view.Table.TablePanel;
@@ -24,13 +24,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 
-/*
+/**
  * Classe che si occupa di gestire il Frame
  */
 public class Frame extends JFrame{
 
     private TablePanel tablePanel;
-    private FormPanel formPanel;
+    private Panel formPanel;
     private Controller controller;
 
     private JTextField fieldTotale;
@@ -50,7 +50,7 @@ public class Frame extends JFrame{
 
         controller = new Controller();
         tablePanel = new TablePanel();
-        formPanel = new FormPanel(tablePanel, controller.getVoci());
+        formPanel = new Panel(tablePanel, controller.getVoci());
 
         fieldTotale = new JTextField(25);
         fieldTotale.setEditable(false);

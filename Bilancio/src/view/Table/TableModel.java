@@ -4,7 +4,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import model.Voce;
 
-/*
+/**
  * Classe che gestisce il modello della tabella
  */
 public class TableModel extends AbstractTableModel{

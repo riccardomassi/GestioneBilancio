@@ -9,7 +9,7 @@ import javax.swing.table.TableModel;
 
 import model.Voce;
 
-/*
+/**
  * Classe che permette di esportare la tabella in formato testo
  * ovvero ogni voce separata da uno spazio
  */

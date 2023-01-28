@@ -2,7 +2,7 @@ package model;
 
 import java.io.Serializable;
 
-/*
+/**
  * Classe che gestisce il modello Voce
  */
 public class Voce implements Serializable{

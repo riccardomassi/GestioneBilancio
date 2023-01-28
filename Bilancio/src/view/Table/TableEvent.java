@@ -2,7 +2,7 @@ package view.Table;
 
 import java.util.EventObject;
 
-/*
+/**
  * Classe che si occupa di gestire i dati nella Tabella
  * per l'evento ELIMINA VOCE
  */

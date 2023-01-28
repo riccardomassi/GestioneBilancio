@@ -36,6 +36,9 @@ public class FilterFile extends FileFilter{
     
     /** 
      * @return String
+     * 
+     * Metodo che ritorna la stringa da mostare nel menu
+     * per la scelta del file
      */
     @Override
     public String getDescription() {

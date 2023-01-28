@@ -2,8 +2,9 @@ package view.File;
 
 import java.io.File;
 
-/*
- * Metodo getExtensions copiato dalla classe Utils.java 
+/**
+ * Classe che implementa il metodo getExtensions 
+ * copiato dalla classe Utils.java 
  */
 public class Utils {
     /*

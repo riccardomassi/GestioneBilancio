@@ -7,7 +7,7 @@ import java.util.List;
 import model.Database;
 import model.Voce;
 
-/*
+/**
  * Classe che fa da intermezzo tra la parte View e la parte Database
  */
 public class Controller {

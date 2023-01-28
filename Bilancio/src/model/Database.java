@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/*
+/**
  * Database che si occupa di tenere memoria di tutte le voci inserite
  * nel Bilancio, attraverso una ArrayList
  */
