@@ -20,7 +20,6 @@ public class TablePanel extends JPanel {
     public TablePanel(){
         tableModel = new TableModel();
         table = new JTable(tableModel);
-        table.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()));
 
         /*
          * Gestione Popup Menu tasto destro per eliminare
