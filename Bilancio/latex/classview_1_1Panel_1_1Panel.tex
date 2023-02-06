@@ -9,11 +9,7 @@ Inheritance diagram for view.\+Panel.\+Panel\+:\begin{figure}[H]
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classview_1_1Panel_1_1Panel_a466cfc62fdf66279b553cb788ac9e9fe}{Panel}} (\mbox{\hyperlink{classview_1_1Table_1_1TablePanel}{Table\+Panel}} table\+Panel, List$<$ \mbox{\hyperlink{classmodel_1_1Voce}{Voce}} $>$ voci)
-\item 
-void \mbox{\hyperlink{classview_1_1Panel_1_1Panel_acb77be3b3d25eaeb3a4bf4cca0fda7e9}{set\+Form\+Listener}} (\mbox{\hyperlink{interfaceview_1_1Panel_1_1AddListener}{Add\+Listener}} form\+Listener)
-\item 
-void \mbox{\hyperlink{classview_1_1Panel_1_1Panel_ab7322270e64b6c94209ff02d9479487c}{set\+Modify\+Listener}} (\mbox{\hyperlink{interfaceview_1_1Panel_1_1ModifyListener}{Modify\+Listener}} modify\+Listener)
+\mbox{\hyperlink{classview_1_1Panel_1_1Panel_a4742e1a3f26d7cde817b5fa4448614cf}{Panel}} (\mbox{\hyperlink{classcontroller_1_1Controller}{Controller}} controller, \mbox{\hyperlink{classview_1_1Table_1_1TablePanel}{Table\+Panel}} table\+Panel, List$<$ \mbox{\hyperlink{classmodel_1_1Voce}{Voce}} $>$ voci, JText\+Field field\+Totale)
 \end{DoxyCompactItemize}
 
 
@@ -21,45 +17,24 @@ void \mbox{\hyperlink{classview_1_1Panel_1_1Panel_ab7322270e64b6c94209ff02d94794
 Classe che si occupa di gestire il Panello 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classview_1_1Panel_1_1Panel_a466cfc62fdf66279b553cb788ac9e9fe}\label{classview_1_1Panel_1_1Panel_a466cfc62fdf66279b553cb788ac9e9fe}} 
+\mbox{\Hypertarget{classview_1_1Panel_1_1Panel_a4742e1a3f26d7cde817b5fa4448614cf}\label{classview_1_1Panel_1_1Panel_a4742e1a3f26d7cde817b5fa4448614cf}} 
 \index{view.Panel.Panel@{view.Panel.Panel}!Panel@{Panel}}
 \index{Panel@{Panel}!view.Panel.Panel@{view.Panel.Panel}}
 \doxysubsubsection{\texorpdfstring{Panel()}{Panel()}}
-{\footnotesize\ttfamily view.\+Panel.\+Panel.\+Panel (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classview_1_1Table_1_1TablePanel}{Table\+Panel}}}]{table\+Panel,  }\item[{List$<$ \mbox{\hyperlink{classmodel_1_1Voce}{Voce}} $>$}]{voci }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily view.\+Panel.\+Panel.\+Panel (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcontroller_1_1Controller}{Controller}}}]{controller,  }\item[{\mbox{\hyperlink{classview_1_1Table_1_1TablePanel}{Table\+Panel}}}]{table\+Panel,  }\item[{List$<$ \mbox{\hyperlink{classmodel_1_1Voce}{Voce}} $>$}]{voci,  }\item[{JText\+Field}]{field\+Totale }\end{DoxyParamCaption})}
 
 
 \begin{DoxyParams}{Parameters}
+{\em controller} & intermezzo tra view e database \\
+\hline
 {\em table\+Panel} & pannello della tabella \\
 \hline
-{\em voci} & lista che gestisce le voci della tabella\\
+{\em voci} & lista che gestisce le voci della tabella \\
+\hline
+{\em field\+Totale} & testo che stampa il totale\\
 \hline
 \end{DoxyParams}
 Classe che gestisce il Pannello 
-
-\doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classview_1_1Panel_1_1Panel_acb77be3b3d25eaeb3a4bf4cca0fda7e9}\label{classview_1_1Panel_1_1Panel_acb77be3b3d25eaeb3a4bf4cca0fda7e9}} 
-\index{view.Panel.Panel@{view.Panel.Panel}!setFormListener@{setFormListener}}
-\index{setFormListener@{setFormListener}!view.Panel.Panel@{view.Panel.Panel}}
-\doxysubsubsection{\texorpdfstring{setFormListener()}{setFormListener()}}
-{\footnotesize\ttfamily void view.\+Panel.\+Panel.\+set\+Form\+Listener (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{interfaceview_1_1Panel_1_1AddListener}{Add\+Listener}}}]{form\+Listener }\end{DoxyParamCaption})}
-
-
-\begin{DoxyParams}{Parameters}
-{\em form\+Listener} & \\
-\hline
-\end{DoxyParams}
-Metodo per impostare il Form\+Listener \mbox{\Hypertarget{classview_1_1Panel_1_1Panel_ab7322270e64b6c94209ff02d9479487c}\label{classview_1_1Panel_1_1Panel_ab7322270e64b6c94209ff02d9479487c}} 
-\index{view.Panel.Panel@{view.Panel.Panel}!setModifyListener@{setModifyListener}}
-\index{setModifyListener@{setModifyListener}!view.Panel.Panel@{view.Panel.Panel}}
-\doxysubsubsection{\texorpdfstring{setModifyListener()}{setModifyListener()}}
-{\footnotesize\ttfamily void view.\+Panel.\+Panel.\+set\+Modify\+Listener (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{interfaceview_1_1Panel_1_1ModifyListener}{Modify\+Listener}}}]{modify\+Listener }\end{DoxyParamCaption})}
-
-
-\begin{DoxyParams}{Parameters}
-{\em form\+Listener} & \\
-\hline
-\end{DoxyParams}
-Metodo per impostare il Modify\+Listener 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

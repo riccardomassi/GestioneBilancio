@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['database_0',['Database',['../classmodel_1_1Database.html',1,'model']]],
-  ['dateformatter_1',['DateFormatter',['../classview_1_1Panel_1_1DateFormatter.html',1,'view::Panel']]]
+  ['filechooser_0',['FileChooser',['../classview_1_1File_1_1FileChooser.html',1,'view::File']]],
+  ['filtercsv_1',['FilterCSV',['../classview_1_1File_1_1FilterCSV.html',1,'view::File']]],
+  ['filterfile_2',['FilterFile',['../classview_1_1File_1_1FilterFile.html',1,'view::File']]],
+  ['filtertext_3',['FilterText',['../classview_1_1File_1_1FilterText.html',1,'view::File']]],
+  ['frame_4',['Frame',['../classview_1_1Frame.html',1,'view']]]
 ];

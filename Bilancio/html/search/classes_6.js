@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['panel_0',['Panel',['../classview_1_1Panel_1_1Panel.html',1,'view::Panel']]]
+  ['utils_0',['Utils',['../classview_1_1File_1_1Utils.html',1,'view::File']]]
 ];

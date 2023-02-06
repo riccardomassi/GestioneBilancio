@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import javax.swing.*;
 import org.jdatepicker.impl.*;
 
+import controller.Controller;
 import model.Voce;
 
 import java.util.ArrayList;
@@ -56,17 +57,15 @@ public class Panel extends JPanel{
     private JButton visualizza;
     private JButton indietro;
 
-    private AddListener formListener; 
-    private ModifyListener modifyListener;
-
     /**
-     * 
+     * @param controller intermezzo tra view e database
      * @param tablePanel pannello della tabella
      * @param voci lista che gestisce le voci della tabella
+     * @param fieldTotale testo che stampa il totale
      * 
      * Classe che gestisce il Pannello
      */
-    public Panel(TablePanel tablePanel, List<Voce> voci){
+    public Panel(Controller controller, TablePanel tablePanel, List<Voce> voci, JTextField fieldTotale){
         /*
          * Set layout e border
          */
@@ -140,8 +139,10 @@ public class Panel extends JPanel{
             public void actionPerformed(ActionEvent e){
                 try{
                     String data = datePicker.getJFormattedTextField().getText();
-                    double ammontare = Integer.parseInt(fieldAmmontare.getText());
+                    double ammontare = Double.parseDouble(fieldAmmontare.getText());
                     String descrizione = fieldDescrizione.getText();
+                    //Arrotondo a due cifre decimali
+                    ammontare = Math.round(ammontare*100.0)/100.0;
 
                     //Se ammontare = 0 stampo errore
                     if (ammontare == 0){
@@ -149,16 +150,12 @@ public class Panel extends JPanel{
                             "Errore", JOptionPane.ERROR_MESSAGE);
                     }
                     else{
-                        // Creo il AddEvent con i dati della voce appena inseriti
-                        AddEvent addEvent = new AddEvent(this, data, ammontare, descrizione);
+                        //Aggiungo la voce e aggiorno la tabella
+                        controller.addVoce(data, ammontare, descrizione);
+                        tablePanel.aggiorna();
 
-                        /*
-                        * Se il formListener é stato settato nel Frame,
-                        * gli passo il formEvent appena creato
-                        */
-                        if(formListener != null){
-                            formListener.formEventListener(addEvent);
-                        }
+                        //gestione somma totale del bilancio
+                        fieldTotale.setText(controller.getTotale());
                     }
                 } catch(Exception e1){
                     e1.printStackTrace();
@@ -175,10 +172,11 @@ public class Panel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e){
                 String data = datePicker.getJFormattedTextField().getText();
-                double ammontare = Integer.parseInt(fieldAmmontare.getText());
+                double ammontare = Double.parseDouble(fieldAmmontare.getText());
                 String descrizione = fieldDescrizione.getText();
+                //Arrotondo a due cifre decimali
+                ammontare = Math.round(ammontare*100.0)/100.0;
 
-                //Se ammontare = 0 stampo errore
                 if (ammontare == 0){
                     JOptionPane.showMessageDialog(Panel.this, "Ammontare non può essere 0", "Errore", JOptionPane.ERROR_MESSAGE);
                 }
@@ -186,16 +184,12 @@ public class Panel extends JPanel{
                     int rowToChange = tablePanel.getTable().getSelectedRow();
                     Voce voceToChange = new Voce(data, ammontare, descrizione);
 
-                    // Creo il ModifyEvent con i dati della voce appena inseriti
-                    ModifyEvent modifyEvent = new ModifyEvent(this, voceToChange, rowToChange);
-                    
-                    /*
-                    * Se il modifyListener é stato settato nel Frame,
-                    * gli passo il modifyEvent appena creato
-                    */
-                    if(modifyListener != null){
-                        modifyListener.modifyEventListener(modifyEvent);
-                    }
+                    //Modifico la voce e aggiorno la tabella
+                    controller.modifyVoce(rowToChange, voceToChange);
+                    tablePanel.aggiorna();
+
+                    //gestione somma totale del bilancio
+                    fieldTotale.setText(controller.getTotale());
                 }
             }
         });
@@ -313,26 +307,33 @@ public class Panel extends JPanel{
                         String date = fieldVisualizza.getText();
                         Calendar calendar = Calendar.getInstance();
 
-                        try {
-                            int month = Integer.parseInt(date.substring(0, 2));
-                            int year = Integer.parseInt(date.substring(3));
-                            // calendar conta i mesi da 0 a 11, quindi bisogna sottrarre 1
-                            calendar.set(Calendar.MONTH, month - 1); 
-                            calendar.set(Calendar.YEAR, year);
-                            // impostare il primo giorno del mese
-                            calendar.set(Calendar.DAY_OF_MONTH, 1);
-                            // ottenere la data di inizio nel tipo Date
-                            inizio = calendar.getTime(); 
-
-                            // impostare l'ultimo giorno del mese
-                            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-                            // ottenere la data di fine nel tipo Date
-                            fine = calendar.getTime(); 
-
-                        } catch (NumberFormatException e1) {
-                            e1.printStackTrace();
+                        //Se il TextField è vuoto Errore
+                        if (fieldVisualizza.getText().equals("")){
                             JOptionPane.showMessageDialog(Panel.this, "Formato data errato\n Scrivere mese e anno nel formato MM/yyyy", 
                             "Errore", JOptionPane.ERROR_MESSAGE);
+                        }
+                        else{
+                            try {
+                                int month = Integer.parseInt(date.substring(0, 2));
+                                int year = Integer.parseInt(date.substring(3));
+                                // calendar conta i mesi da 0 a 11, quindi bisogna sottrarre 1
+                                calendar.set(Calendar.MONTH, month - 1); 
+                                calendar.set(Calendar.YEAR, year);
+                                // impostare il primo giorno del mese
+                                calendar.set(Calendar.DAY_OF_MONTH, 1);
+                                // ottenere la data di inizio nel tipo Date
+                                inizio = calendar.getTime(); 
+    
+                                // impostare l'ultimo giorno del mese
+                                calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+                                // ottenere la data di fine nel tipo Date
+                                fine = calendar.getTime(); 
+    
+                            } catch (NumberFormatException e1) {
+                                e1.printStackTrace();
+                                JOptionPane.showMessageDialog(Panel.this, "Formato data errato\n Scrivere mese e anno nel formato MM/yyyy", 
+                                "Errore", JOptionPane.ERROR_MESSAGE);
+                            }
                         }
                         break;
                     }
@@ -393,18 +394,25 @@ public class Panel extends JPanel{
                 }
 
                 ArrayList<Voce> newVoci = new ArrayList<Voce>();
+                double totale = 0;
+
                 //Creo il nuovo array di appoggio con le voci comprese nelle date di inizio e fine
                 for (Voce v : voci){
                     try {
                         Date date = new SimpleDateFormat("dd/MM/yyyy").parse(v.getData());
                         if (date.compareTo(inizio) >= 0 && date.compareTo(fine) <= 0){
                             newVoci.add(v);
+                            totale += v.getAmmontare();
                         }
                     } catch (ParseException e1) {
                         e1.printStackTrace();
                     }
                 }
                 
+                //Arrotondo a due cifre decimali
+                totale = Math.round(totale*100.0)/100.0;
+                //Aggiorno il valore del totale
+                fieldTotale.setText("Totale: "+totale);
                 // Aggiorno la tabella coi nuovi dati
                 tablePanel.setData(newVoci);
                 tablePanel.aggiorna();
@@ -420,6 +428,9 @@ public class Panel extends JPanel{
                 //Torno alla tabella coi dati iniziali
                 tablePanel.setData(voci);
                 tablePanel.aggiorna();
+
+                //Aggiorno il valore del totale
+                fieldTotale.setText(controller.getTotale());
             }
         });
 
@@ -604,24 +615,5 @@ public class Panel extends JPanel{
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.insets = new Insets(5, 150, 0, 0);
         add(ricerca, gbc);
-    }
-
-    
-    /** 
-     * @param formListener
-     * 
-     * Metodo per impostare il FormListener
-     */
-    public void setFormListener(AddListener formListener){
-        this.formListener = formListener;
-    }
-
-    /** 
-     * @param formListener
-     * 
-     * Metodo per impostare il ModifyListener
-     */
-    public void setModifyListener(ModifyListener modifyListener){
-        this.modifyListener = modifyListener;
     }
 }

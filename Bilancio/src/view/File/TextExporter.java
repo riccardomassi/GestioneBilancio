@@ -3,11 +3,8 @@ package view.File;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 import javax.swing.table.TableModel;
-
-import model.Voce;
 
 /**
  * Classe che permette di esportare la tabella in formato testo
@@ -21,11 +18,10 @@ public class TextExporter {
     
     /** 
      * @param tableModel modello astratto della tabella
-     * @param voci ArrayList contenente le voci della tabella
      * @param fileName nome file su cui salvare
      * @throws IOException
      */
-    public void export(TableModel tableModel, List<Voce> voci, File fileName) throws IOException{
+    public void export(TableModel tableModel, File fileName) throws IOException{
         FileWriter txtWriter;
         try {
             txtWriter = new FileWriter(fileName);

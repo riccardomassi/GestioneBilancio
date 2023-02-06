@@ -88,18 +88,14 @@ Inheritance diagram for view.Panel.Panel:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a466cfc62fdf66279b553cb788ac9e9fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classview_1_1Panel_1_1Panel.html#a466cfc62fdf66279b553cb788ac9e9fe">Panel</a> (<a class="el" href="classview_1_1Table_1_1TablePanel.html">TablePanel</a> tablePanel, List&lt; <a class="el" href="classmodel_1_1Voce.html">Voce</a> &gt; voci)</td></tr>
-<tr class="separator:a466cfc62fdf66279b553cb788ac9e9fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb77be3b3d25eaeb3a4bf4cca0fda7e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classview_1_1Panel_1_1Panel.html#acb77be3b3d25eaeb3a4bf4cca0fda7e9">setFormListener</a> (<a class="el" href="interfaceview_1_1Panel_1_1AddListener.html">AddListener</a> formListener)</td></tr>
-<tr class="separator:acb77be3b3d25eaeb3a4bf4cca0fda7e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7322270e64b6c94209ff02d9479487c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classview_1_1Panel_1_1Panel.html#ab7322270e64b6c94209ff02d9479487c">setModifyListener</a> (<a class="el" href="interfaceview_1_1Panel_1_1ModifyListener.html">ModifyListener</a> modifyListener)</td></tr>
-<tr class="separator:ab7322270e64b6c94209ff02d9479487c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4742e1a3f26d7cde817b5fa4448614cf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classview_1_1Panel_1_1Panel.html#a4742e1a3f26d7cde817b5fa4448614cf">Panel</a> (<a class="el" href="classcontroller_1_1Controller.html">Controller</a> controller, <a class="el" href="classview_1_1Table_1_1TablePanel.html">TablePanel</a> tablePanel, List&lt; <a class="el" href="classmodel_1_1Voce.html">Voce</a> &gt; voci, JTextField fieldTotale)</td></tr>
+<tr class="separator:a4742e1a3f26d7cde817b5fa4448614cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Classe che si occupa di gestire il Panello </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a466cfc62fdf66279b553cb788ac9e9fe" name="a466cfc62fdf66279b553cb788ac9e9fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a466cfc62fdf66279b553cb788ac9e9fe">&#9670;&#160;</a></span>Panel()</h2>
+<a id="a4742e1a3f26d7cde817b5fa4448614cf" name="a4742e1a3f26d7cde817b5fa4448614cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4742e1a3f26d7cde817b5fa4448614cf">&#9670;&#160;</a></span>Panel()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -107,6 +103,12 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">view.Panel.Panel.Panel </td>
           <td>(</td>
+          <td class="paramtype"><a class="el" href="classcontroller_1_1Controller.html">Controller</a>&#160;</td>
+          <td class="paramname"><em>controller</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype"><a class="el" href="classview_1_1Table_1_1TablePanel.html">TablePanel</a>&#160;</td>
           <td class="paramname"><em>tablePanel</em>, </td>
         </tr>
@@ -114,7 +116,13 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">List&lt; <a class="el" href="classmodel_1_1Voce.html">Voce</a> &gt;&#160;</td>
-          <td class="paramname"><em>voci</em>&#160;</td>
+          <td class="paramname"><em>voci</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">JTextField&#160;</td>
+          <td class="paramname"><em>fieldTotale</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -125,63 +133,14 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">controller</td><td>intermezzo tra view e database </td></tr>
     <tr><td class="paramname">tablePanel</td><td>pannello della tabella </td></tr>
-    <tr><td class="paramname">voci</td><td>lista che gestisce le voci della tabella</td></tr>
+    <tr><td class="paramname">voci</td><td>lista che gestisce le voci della tabella </td></tr>
+    <tr><td class="paramname">fieldTotale</td><td>testo che stampa il totale</td></tr>
   </table>
   </dd>
 </dl>
 <p>Classe che gestisce il Pannello </p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="acb77be3b3d25eaeb3a4bf4cca0fda7e9" name="acb77be3b3d25eaeb3a4bf4cca0fda7e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb77be3b3d25eaeb3a4bf4cca0fda7e9">&#9670;&#160;</a></span>setFormListener()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void view.Panel.Panel.setFormListener </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="interfaceview_1_1Panel_1_1AddListener.html">AddListener</a>&#160;</td>
-          <td class="paramname"><em>formListener</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">formListener</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Metodo per impostare il FormListener </p>
-
-</div>
-</div>
-<a id="ab7322270e64b6c94209ff02d9479487c" name="ab7322270e64b6c94209ff02d9479487c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7322270e64b6c94209ff02d9479487c">&#9670;&#160;</a></span>setModifyListener()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void view.Panel.Panel.setModifyListener </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="interfaceview_1_1Panel_1_1ModifyListener.html">ModifyListener</a>&#160;</td>
-          <td class="paramname"><em>modifyListener</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">formListener</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Metodo per impostare il ModifyListener </p>
 
 </div>
 </div>

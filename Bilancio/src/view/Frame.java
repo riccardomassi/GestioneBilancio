@@ -3,7 +3,6 @@ package view;
 import javax.swing.*;
 
 import controller.Controller;
-import model.Voce;
 import view.File.CSVExporter;
 import view.File.FileChooser;
 import view.File.FilterCSV;
@@ -11,10 +10,6 @@ import view.File.FilterFile;
 import view.File.FilterText;
 import view.File.TextExporter;
 import view.File.Utils;
-import view.Panel.AddEvent;
-import view.Panel.AddListener;
-import view.Panel.ModifyEvent;
-import view.Panel.ModifyListener;
 import view.Panel.Panel;
 import view.Table.TableEvent;
 import view.Table.TableListener;
@@ -30,7 +25,7 @@ import java.io.*;
 public class Frame extends JFrame{
 
     private TablePanel tablePanel;
-    private Panel formPanel;
+    private Panel Panel;
     private Controller controller;
 
     private JTextField fieldTotale;
@@ -50,53 +45,16 @@ public class Frame extends JFrame{
 
         controller = new Controller();
         tablePanel = new TablePanel();
-        formPanel = new Panel(tablePanel, controller.getVoci());
 
         fieldTotale = new JTextField(25);
         fieldTotale.setEditable(false);
+
+        Panel = new Panel(controller, tablePanel, controller.getVoci(), fieldTotale);
 
         /*
          * prendo la lista di Voci dal Database e la passo alla Tabella attraverso il Controller
          */
         tablePanel.setData(controller.getVoci());
-
-        /*
-         * Setto il FormListener per ascoltare l'evento di aggiunta voce
-         */
-        formPanel.setFormListener(new AddListener() {
-            @Override
-            public void formEventListener(AddEvent fe){
-                String data = fe.getData();
-                double ammontare = fe.getAmmontare();
-                String descrizione = fe.getDescrizione();
-
-                controller.addVoce(data, ammontare, descrizione);
-                tablePanel.aggiorna();
-
-                //gestione somma totale del bilancio
-                fieldTotale.setText(controller.getTotale());
-            }
-        });
-
-        /*
-         * Setto il MOdifyListener per ascoltare l'evento di modifica voce
-         */
-        formPanel.setModifyListener(new ModifyListener() {
-
-            @Override
-            public void modifyEventListener(ModifyEvent me) {
-                Voce voceToChange = me.getVoceToChange();
-                int rowToChange = me.getRowToChange();
-
-                controller.modifyVoce(rowToChange, voceToChange);
-                tablePanel.aggiorna();
-
-                //gestione somma totale del bilancio
-                fieldTotale.setText(controller.getTotale());
-                
-            }
-            
-        });
 
         /*
          * Setto il TableListener per ascoltare gli eventi
@@ -125,7 +83,7 @@ public class Frame extends JFrame{
          * Componenti
          */
         add(pc, BorderLayout.CENTER);
-        add(formPanel, BorderLayout.LINE_START);
+        add(Panel, BorderLayout.LINE_START);
 
         /*
          * Impostazioni frame
@@ -235,7 +193,7 @@ public class Frame extends JFrame{
 
                         //Polimorfismo
                         textExporter = new TextExporter();
-                        textExporter.export(tablePanel.getModel(), controller.getVoci(), f);
+                        textExporter.export(tablePanel.getModel(), f);
 
                     } catch (IOException e1) {
                         JOptionPane.showMessageDialog(Frame.this, "Impossibile esportare i dati su file", "Errore", JOptionPane.ERROR_MESSAGE);
@@ -263,7 +221,7 @@ public class Frame extends JFrame{
 
                         //Polimorfismo
                         textExporter = new CSVExporter();
-                        textExporter.export(tablePanel.getModel(), controller.getVoci(), f);
+                        textExporter.export(tablePanel.getModel(), f);
 
                     } catch (IOException e1) {
                         JOptionPane.showMessageDialog(Frame.this, "Impossibile esportare i dati su file", "Errore", JOptionPane.ERROR_MESSAGE);

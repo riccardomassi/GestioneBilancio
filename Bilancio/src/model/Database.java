@@ -61,15 +61,17 @@ public class Database {
      * Metodo che ritorna la somma totale delle voci del bilancio
      */
     public String getTotale(){
-        int totale = 0;
+        double totale = 0;
         for(int i = 0; i < voci.size(); i++){
             totale += voci.get(i).getAmmontare();
         }
 
+        //Arrotondo a due cifre decimali
+        totale = Math.round(totale*100.0)/100.0;
+        
         return "Totale: "+totale;
     }
 
-    
     /** 
      * @param file nome file su cui salvare
      * @throws IOException

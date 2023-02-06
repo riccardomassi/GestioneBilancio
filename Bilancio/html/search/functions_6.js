@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['panel_0',['Panel',['../classview_1_1Panel_1_1Panel.html#a466cfc62fdf66279b553cb788ac9e9fe',1,'view::Panel::Panel']]]
+  ['panel_0',['Panel',['../classview_1_1Panel_1_1Panel.html#a4742e1a3f26d7cde817b5fa4448614cf',1,'view::Panel::Panel']]]
 ];
