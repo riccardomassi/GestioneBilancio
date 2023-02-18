@@ -2,7 +2,7 @@ package view;
 
 import javax.swing.*;
 
-import controller.Controller;
+import model.Database;
 import view.File.CSVExporter;
 import view.File.FileChooser;
 import view.File.FilterCSV;
@@ -26,7 +26,7 @@ public class Frame extends JFrame{
 
     private TablePanel tablePanel;
     private Panel Panel;
-    private Controller controller;
+    private Database database;
 
     private JTextField fieldTotale;
 
@@ -43,18 +43,18 @@ public class Frame extends JFrame{
         setLayout(new BorderLayout());
         setJMenuBar(creaBarraMenu());
 
-        controller = new Controller();
+        database = new Database();
         tablePanel = new TablePanel();
 
         fieldTotale = new JTextField(25);
         fieldTotale.setEditable(false);
 
-        Panel = new Panel(controller, tablePanel, controller.getVoci(), fieldTotale);
+        Panel = new Panel(database, tablePanel, database.getVoci(), fieldTotale);
 
         /*
-         * prendo la lista di Voci dal Database e la passo alla Tabella attraverso il Controller
+         * prendo la lista di Voci dal Database e la passo alla Tabella
          */
-        tablePanel.setData(controller.getVoci());
+        tablePanel.setData(database.getVoci());
 
         /*
          * Setto il TableListener per ascoltare gli eventi
@@ -64,10 +64,10 @@ public class Frame extends JFrame{
             @Override
             public void tableEventListener(TableEvent te){
                 int rowIndexDelete = te.getRowToDelete();
-                controller.delVoce(rowIndexDelete);
+                database.delVoce(rowIndexDelete);
 
                 //gestione somma totale del bilancio
-                fieldTotale.setText(controller.getTotale());
+                fieldTotale.setText(database.getTotale());
             }
         });
 
@@ -109,6 +109,7 @@ public class Frame extends JFrame{
         JMenu menuFile = new JMenu("File");
 
         JMenuItem menuItemImporta = new JMenuItem("Importa");
+        JMenuItem menuItemStampa = new JMenuItem("Stampa");
         JMenuItem menuItemEsci = new JMenuItem("Esci");
 
         JMenu menuEsporta = new JMenu("Esporta");
@@ -122,6 +123,7 @@ public class Frame extends JFrame{
 
         menuFile.add(menuItemImporta);
         menuFile.add(menuEsporta);
+        menuFile.add(menuItemStampa);
         menuFile.addSeparator();
         menuFile.add(menuItemEsci);
 
@@ -136,14 +138,14 @@ public class Frame extends JFrame{
                 
                 if (fileChooser.showOpenDialog(Frame.this) == JFileChooser.APPROVE_OPTION){
                     try {
-                        controller.caricaDaFile(fileChooser.getSelectedFile());
+                        database.caricaDaFile(fileChooser.getSelectedFile());
                         tablePanel.aggiorna();
                     } catch (IOException e1) {
                         JOptionPane.showMessageDialog(Frame.this, "Impossibile importare i dati da file", "Errore", JOptionPane.ERROR_MESSAGE);
                     }
 
                     //gestione somma totale del bilancio
-                    fieldTotale.setText(controller.getTotale());
+                    fieldTotale.setText(database.getTotale());
                 }
             }
         });
@@ -165,7 +167,7 @@ public class Frame extends JFrame{
                             f = new File(f.toString() + ".bil");
                         }
 
-                        controller.salvaSuFile(f);
+                        database.salvaSuFile(f);
 
                     } catch (IOException e1) {
                         JOptionPane.showMessageDialog(Frame.this, "Impossibile esportare i dati su file", "Errore", JOptionPane.ERROR_MESSAGE);
@@ -226,6 +228,19 @@ public class Frame extends JFrame{
                     } catch (IOException e1) {
                         JOptionPane.showMessageDialog(Frame.this, "Impossibile esportare i dati su file", "Errore", JOptionPane.ERROR_MESSAGE);
                     }
+                }
+            }
+        });
+
+        //Action event che permette di aprire il popup per stampare la tabella con la stampante 
+        menuItemStampa.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                try{
+                    tablePanel.getTable().print();;
+                }catch(java.awt.print.PrinterException e1){
+                    JOptionPane.showMessageDialog(Frame.this, "Ammontare non può essere 0", 
+                                    "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

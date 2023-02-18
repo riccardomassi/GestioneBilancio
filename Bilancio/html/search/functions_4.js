@@ -10,7 +10,7 @@ var searchData=
   ['getrowcount_7',['getRowCount',['../classview_1_1Table_1_1TableModel.html#a470742d82a9898bfcbbee05d0d9af9c0',1,'view::Table::TableModel']]],
   ['getrowtodelete_8',['getRowToDelete',['../classview_1_1Table_1_1TableEvent.html#aa51d3eb4e6e37834d66b74535fc6934c',1,'view::Table::TableEvent']]],
   ['gettable_9',['getTable',['../classview_1_1Table_1_1TablePanel.html#a8c191316a65f655c51aa54a24919f3e4',1,'view::Table::TablePanel']]],
-  ['gettotale_10',['getTotale',['../classcontroller_1_1Controller.html#af7bb115013b1842a95d0991f027a8a98',1,'controller.Controller.getTotale()'],['../classmodel_1_1Database.html#af5ee7e31581fb4acea8b9cb489acec3d',1,'model.Database.getTotale()']]],
+  ['gettotale_10',['getTotale',['../classmodel_1_1Database.html#af5ee7e31581fb4acea8b9cb489acec3d',1,'model::Database']]],
   ['getvalueat_11',['getValueAt',['../classview_1_1Table_1_1TableModel.html#a61ea2acc3b59a1bbb2d185a5770850c8',1,'view::Table::TableModel']]],
-  ['getvoci_12',['getVoci',['../classcontroller_1_1Controller.html#aac6d5eb281f41001b5d6d45617d49950',1,'controller.Controller.getVoci()'],['../classmodel_1_1Database.html#a6328ef9b049d1911f989df53ab639746',1,'model.Database.getVoci()']]]
+  ['getvoci_12',['getVoci',['../classmodel_1_1Database.html#a6328ef9b049d1911f989df53ab639746',1,'model::Database']]]
 ];

@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import javax.swing.*;
 import org.jdatepicker.impl.*;
 
-import controller.Controller;
+import model.Database;
 import model.Voce;
 
 import java.util.ArrayList;
@@ -58,19 +58,19 @@ public class Panel extends JPanel{
     private JButton indietro;
 
     /**
-     * @param controller intermezzo tra view e database
+     * @param database databse che tiene memoria delle voci in tabella
      * @param tablePanel pannello della tabella
      * @param voci lista che gestisce le voci della tabella
      * @param fieldTotale testo che stampa il totale
      * 
      * Classe che gestisce il Pannello
      */
-    public Panel(Controller controller, TablePanel tablePanel, List<Voce> voci, JTextField fieldTotale){
+    public Panel(Database database, TablePanel tablePanel, List<Voce> voci, JTextField fieldTotale){
         /*
          * Set layout e border
          */
         setLayout(new GridBagLayout());
-        setBorder(BorderFactory.createTitledBorder("Inserimento Dati"));
+        setBorder(BorderFactory.createTitledBorder("Gestione Dati"));
 
         /*
          * Componenti
@@ -151,17 +151,22 @@ public class Panel extends JPanel{
                     }
                     else{
                         //Aggiungo la voce e aggiorno la tabella
-                        controller.addVoce(data, ammontare, descrizione);
+                        Voce voce = new Voce(data, ammontare, descrizione);
+                        database.addVoce(voce);
                         tablePanel.aggiorna();
 
                         //gestione somma totale del bilancio
-                        fieldTotale.setText(controller.getTotale());
+                        fieldTotale.setText(database.getTotale());
                     }
                 } catch(Exception e1){
                     e1.printStackTrace();
                     JOptionPane.showMessageDialog(Panel.this, "Dati inseriti errati", 
                         "Errore", JOptionPane.ERROR_MESSAGE);
                 }
+
+                //Reset dei TextField
+                fieldAmmontare.setText("");
+                fieldDescrizione.setText("");
             }
         });
 
@@ -185,12 +190,16 @@ public class Panel extends JPanel{
                     Voce voceToChange = new Voce(data, ammontare, descrizione);
 
                     //Modifico la voce e aggiorno la tabella
-                    controller.modifyVoce(rowToChange, voceToChange);
+                    database.modifyVoce(rowToChange, voceToChange);
                     tablePanel.aggiorna();
 
                     //gestione somma totale del bilancio
-                    fieldTotale.setText(controller.getTotale());
+                    fieldTotale.setText(database.getTotale());
                 }
+
+                //Reset dei TextField
+                fieldAmmontare.setText("");
+                fieldDescrizione.setText("");
             }
         });
 
@@ -387,7 +396,7 @@ public class Panel extends JPanel{
                         } catch (ParseException e1) {
                             e1.printStackTrace();
                             JOptionPane.showMessageDialog(Panel.this, "Formato data errato\n Scrivere data nel formato dd/MM/yyyy", 
-                            "Errore", JOptionPane.ERROR_MESSAGE);
+                                "Errore", JOptionPane.ERROR_MESSAGE);
                         }
                         break;
                     }
@@ -409,13 +418,24 @@ public class Panel extends JPanel{
                     }
                 }
                 
-                //Arrotondo a due cifre decimali
-                totale = Math.round(totale*100.0)/100.0;
-                //Aggiorno il valore del totale
-                fieldTotale.setText("Totale: "+totale);
-                // Aggiorno la tabella coi nuovi dati
-                tablePanel.setData(newVoci);
-                tablePanel.aggiorna();
+                if(!newVoci.isEmpty()){
+                    //Arrotondo a due cifre decimali
+                    totale = Math.round(totale*100.0)/100.0;
+                    //Aggiorno il valore del totale
+                    fieldTotale.setText("Totale: "+totale);
+                    // Aggiorno la tabella coi nuovi dati
+                    tablePanel.setData(newVoci);
+                    tablePanel.aggiorna();
+                }
+                else{
+                    JOptionPane.showMessageDialog(Panel.this, "Niente da visualizzare", 
+                        "Info", JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                //reset dei TextField
+                fieldVisualizza.setText("");
+                fieldInizio.setText("");
+                fieldFine.setText("");
             }
         });
 
@@ -430,7 +450,7 @@ public class Panel extends JPanel{
                 tablePanel.aggiorna();
 
                 //Aggiorno il valore del totale
-                fieldTotale.setText(controller.getTotale());
+                fieldTotale.setText(database.getTotale());
             }
         });
 

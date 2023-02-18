@@ -102,7 +102,7 @@ public class TablePanel extends JPanel {
     
     /** 
      * @param textToSearch testo da cercare
-     * @param startIndex inidce riga da cui partire a cercare
+     * @param startIndex indice riga da cui partire a cercare
      * @return int
      *
      * Metodo per la gestione dell'indice di riga di partenza
@@ -149,5 +149,17 @@ public class TablePanel extends JPanel {
      */
     public JTable getTable(){
         return table;
+    }
+
+    /**
+     * Metodo stampare la tabella con la stampante
+     */
+    public void print(){
+        try{
+            table.print();
+        }catch(java.awt.print.PrinterException e1){
+            JOptionPane.showMessageDialog(TablePanel.this, "Ammontare non può essere 0", 
+                            "Errore", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

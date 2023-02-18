@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['salvasufile_0',['salvaSuFile',['../classcontroller_1_1Controller.html#a828b03aa49aa0f0694795fc8cbff44c2',1,'controller.Controller.salvaSuFile()'],['../classmodel_1_1Database.html#ad0bc0fce345352e958de852f2f897439',1,'model.Database.salvaSuFile()']]],
+  ['salvasufile_0',['salvaSuFile',['../classmodel_1_1Database.html#ad0bc0fce345352e958de852f2f897439',1,'model::Database']]],
   ['searchtext_1',['searchText',['../classview_1_1Table_1_1TablePanel.html#aa4a7133d4309ba64fdbc07af2942601b',1,'view::Table::TablePanel']]],
   ['setammontare_2',['setAmmontare',['../classmodel_1_1Voce.html#acc215932d32065d757b340f0d95ba933',1,'model::Voce']]],
   ['setdata_3',['setData',['../classmodel_1_1Voce.html#ae2c4a007e3eee6db4c647b0cf568fe4f',1,'model.Voce.setData()'],['../classview_1_1Table_1_1TableModel.html#a8d6a0948cbe78ed4421a37f4a72e39b3',1,'view.Table.TableModel.setData()'],['../classview_1_1Table_1_1TablePanel.html#a71306dc1899849638205daa6f46efd3c',1,'view.Table.TablePanel.setData()']]],
