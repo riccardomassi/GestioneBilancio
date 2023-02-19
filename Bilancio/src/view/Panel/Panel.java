@@ -100,7 +100,7 @@ public class Panel extends JPanel{
         modifica = new JButton("Modifica");
 
         //Giorno, Settimana, Mese, Anno da visualizzare
-        labelVisualizza = new JLabel("Visualizza:");
+        labelVisualizza = new JLabel("Filtra:");
         String[] boxOptions = {"Giorno", "Settimana", "Mese", "Anno", "Altro"};
         boxVisualizza = new JComboBox<>(boxOptions);
 
@@ -125,7 +125,7 @@ public class Panel extends JPanel{
         indietro = new JButton("Indietro");
 
         // Imposto label, field e bottone Ricerca
-        labelRicerca = new JLabel("Ricerca:");
+        labelRicerca = new JLabel("Cerca testo:");
         fieldRicerca = new JTextField(25);
         ricerca = new JButton("Ricerca");
 
@@ -164,9 +164,12 @@ public class Panel extends JPanel{
                         "Errore", JOptionPane.ERROR_MESSAGE);
                 }
 
-                //Reset dei TextField
+                //Reset dei TextField e della data
                 fieldAmmontare.setText("");
                 fieldDescrizione.setText("");
+                Date date = new Date();
+                dateModel.setValue(date);
+                dateModel.setSelected(true);
             }
         });
 
@@ -176,30 +179,39 @@ public class Panel extends JPanel{
         modifica.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                String data = datePicker.getJFormattedTextField().getText();
-                double ammontare = Double.parseDouble(fieldAmmontare.getText());
-                String descrizione = fieldDescrizione.getText();
-                //Arrotondo a due cifre decimali
-                ammontare = Math.round(ammontare*100.0)/100.0;
+                try{
+                    String data = datePicker.getJFormattedTextField().getText();
+                    double ammontare = Double.parseDouble(fieldAmmontare.getText());
+                    String descrizione = fieldDescrizione.getText();
+                    //Arrotondo a due cifre decimali
+                    ammontare = Math.round(ammontare*100.0)/100.0;
 
-                if (ammontare == 0){
-                    JOptionPane.showMessageDialog(Panel.this, "Ammontare non può essere 0", "Errore", JOptionPane.ERROR_MESSAGE);
+                    if (ammontare == 0){
+                        JOptionPane.showMessageDialog(Panel.this, "Ammontare non può essere 0", "Errore", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else{
+                        int rowToChange = tablePanel.getTable().getSelectedRow();
+                        Voce voceToChange = new Voce(data, ammontare, descrizione);
+
+                        //Modifico la voce e aggiorno la tabella
+                        database.modifyVoce(rowToChange, voceToChange);
+                        tablePanel.aggiorna();
+
+                        //gestione somma totale del bilancio
+                        fieldTotale.setText(database.getTotale());
+                    }
+                } catch(Exception e1){
+                    e1.printStackTrace();
+                    JOptionPane.showMessageDialog(Panel.this, "Dati inseriti errati", 
+                        "Errore", JOptionPane.ERROR_MESSAGE);
                 }
-                else{
-                    int rowToChange = tablePanel.getTable().getSelectedRow();
-                    Voce voceToChange = new Voce(data, ammontare, descrizione);
 
-                    //Modifico la voce e aggiorno la tabella
-                    database.modifyVoce(rowToChange, voceToChange);
-                    tablePanel.aggiorna();
-
-                    //gestione somma totale del bilancio
-                    fieldTotale.setText(database.getTotale());
-                }
-
-                //Reset dei TextField
+                //Reset dei TextField e della data
                 fieldAmmontare.setText("");
                 fieldDescrizione.setText("");
+                Date date = new Date();
+                dateModel.setValue(date);
+                dateModel.setSelected(true);
             }
         });
 
@@ -215,14 +227,9 @@ public class Panel extends JPanel{
                 if (textToSearch.equals("")){
                     return;
                 }
-                //chiamo il metodo che cerca il testo
+                //chiamo il metodo che cerca il testo e salvo l'indice di riga 
+                //dell'ultimo match trovato
                 index = tablePanel.searchText(textToSearch, index);
-                /*
-                 * Se index = -1 stampo errore perchè significa che non ho trovato il testo,
-                 */
-                if (index == -1){
-                    JOptionPane.showMessageDialog(Panel.this, "Testo non trovato", "Errore", JOptionPane.ERROR_MESSAGE);
-                }
             }
         });
 
@@ -536,7 +543,7 @@ public class Panel extends JPanel{
         gbc.weightx = 0.01;
         gbc.weighty = 0.01;
         gbc.anchor = GridBagConstraints.LINE_START;
-        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.insets = new Insets(0, 30, 0, 0);
         add(labelVisualizza, gbc);
         //gbc ComboBox Visualizza
         gbc.gridx = 1;
@@ -615,7 +622,7 @@ public class Panel extends JPanel{
         gbc.weightx = 0.01;
         gbc.weighty = 0.01;
         gbc.anchor = GridBagConstraints.LINE_START;
-        gbc.insets = new Insets(0, 25, 0, 0);
+        gbc.insets = new Insets(0, 0, 0, 0);
         add(labelRicerca, gbc);
         //gbc field Ricerca
         gbc.gridx = 1;

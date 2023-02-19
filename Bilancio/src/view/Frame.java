@@ -108,27 +108,27 @@ public class Frame extends JFrame{
          */
         JMenu menuFile = new JMenu("File");
 
-        JMenuItem menuItemImporta = new JMenuItem("Importa");
+        JMenuItem menuItemSalva = new JMenuItem("Salva");
+        JMenuItem menuItemCarica = new JMenuItem("Carica");
         JMenuItem menuItemStampa = new JMenuItem("Stampa");
         JMenuItem menuItemEsci = new JMenuItem("Esci");
 
         JMenu menuEsporta = new JMenu("Esporta");
-        JMenuItem esportaFile = new JMenuItem("File");
         JMenuItem esportaCSV = new JMenuItem("CSV");
         JMenuItem esportaTesto = new JMenuItem("Testo");
 
-        menuEsporta.add(esportaFile);
         menuEsporta.add(esportaTesto);
         menuEsporta.add(esportaCSV);
 
-        menuFile.add(menuItemImporta);
+        menuFile.add(menuItemSalva);
+        menuFile.add(menuItemCarica);
         menuFile.add(menuEsporta);
         menuFile.add(menuItemStampa);
         menuFile.addSeparator();
         menuFile.add(menuItemEsci);
 
         //Action event che mi permette di gestire l'importazione da file
-        menuItemImporta.addActionListener(new ActionListener(){
+        menuItemCarica.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
                 //setto il FileChooser per il tipo File
@@ -151,7 +151,7 @@ public class Frame extends JFrame{
         });
 
         //Action event che mi permette di gestire l'esportazione su file
-        esportaFile.addActionListener(new ActionListener(){
+        menuItemSalva.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
                 //setto il FileChooser per il tipo File

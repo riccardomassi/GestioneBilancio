@@ -90,13 +90,10 @@ public class TablePanel extends JPanel {
      */
     public int searchText(String textToSearch, int currentIndex){
         currentIndex = findNextIndex(textToSearch, currentIndex + 1);
-        if (currentIndex != -1){
-            //Evidenzio la riga che contiene la stringa trovata
-            table.setRowSelectionInterval(currentIndex, currentIndex);
-            return currentIndex;
-        }
-
-        return -1;
+        //Evidenzio la riga che contiene la stringa trovata
+        table.setRowSelectionInterval(currentIndex, currentIndex);
+        
+        return currentIndex;
     }
 
     
@@ -119,7 +116,7 @@ public class TablePanel extends JPanel {
                     }
             }
         }
-        return -1;
+        return 0;
     }
 
     
